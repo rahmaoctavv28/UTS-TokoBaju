@@ -11,8 +11,16 @@ class DetailPesananController extends Controller
 {
     public function index()
     {
-        $detailpesanan = PesananDetail::all();
-
+        //$detailpesanan = PesananDetail::all();
+        $detail = DetailPesanan::join('produks','detail_pesanans.produk_id','=','produks.id')
+        ->join('pesanans','detail_pesanans.pesanan_id','=','pesanans.id')
+        ->select(
+            'detail_pesanans.*',
+            'produks.nama_baju',
+            'pesanans.id'
+        )
+        ->get();
+        
         return view('detailpesanan.index', compact('detailpesanan'));
     }
 

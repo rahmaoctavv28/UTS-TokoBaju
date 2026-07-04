@@ -2,7 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
+<<<<<<< HEAD
 /* CONTROLLERS */
+=======
+use App\Http\Controllers\DashboardController;
+>>>>>>> b98995d7adb5bb52dd11f4b3ee3f096fd2cc364e
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\PelangganController;
@@ -20,11 +24,16 @@ use App\Models\Produk;
 use App\Models\Pelanggan;
 use App\Models\Pesanan;
 
+<<<<<<< HEAD
 /*
 |--------------------------------------------------------------------------
 | RESOURCE ROUTES
 |--------------------------------------------------------------------------
 */
+=======
+Route::get('/DashboardAdmin', [DashboardController::class, 'index'])
+->name('dashboardadmin');
+>>>>>>> b98995d7adb5bb52dd11f4b3ee3f096fd2cc364e
 
 Route::resource('produk', ProdukController::class);
 

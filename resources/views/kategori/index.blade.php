@@ -1,144 +1,83 @@
-<!DOCTYPE html>
-<html>
+<!-- <!DOCTYPE html>
+<html lang="id">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Kategori</title>
-
-    <style>
-
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial;
-        }
-
-        body{
-            min-height:100vh;
-            background: linear-gradient(135deg,#ffe066,#ff6ec7,#6ea8ff);
-            padding:40px;
-        }
-
-        .container{
-            background:white;
-            padding:30px;
-            border-radius:25px;
-            box-shadow:0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        h1{
-            text-align:center;
-            color:#ff1493;
-            margin-bottom:30px;
-            font-size:40px;
-        }
-
-        .btn{
-            text-decoration:none;
-            background:#ff1493;
-            color:white;
-            padding:12px 20px;
-            border-radius:12px;
-            display:inline-block;
-            margin-bottom:25px;
-            font-weight:bold;
-        }
-
-        .home{
-            background:#6ea8ff;
-            float:right;
-        }
-
-        table{
-            width:100%;
-            border-collapse:collapse;
-        }
-
-        th{
-            background:#ff1493;
-            color:white;
-            padding:15px;
-        }
-
-        td{
-            padding:15px;
-            text-align:center;
-            background:#fff5fa;
-        }
-
-        tr:nth-child(even) td{
-            background:#f3f7ff;
-        }
-
-        .edit{
-            background:orange;
-            color:white;
-            padding:10px 15px;
-            border-radius:10px;
-            text-decoration:none;
-            font-weight:bold;
-        }
-
-        .hapus{
-            background:red;
-            color:white;
-            border:none;
-            padding:10px 15px;
-            border-radius:10px;
-            cursor:pointer;
-            font-weight:bold;
-        }
-
-    </style>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light"> -->
+@extends('layouts.app')
 
+@section('content')
 <div class="container">
-
-    <h1>📂 Data Kategori</h1>
-
-    <a href="/kategori/create"
-       class="btn">
-
-       + Tambah Kategori
-
-    </a>
-
-    <a href="/"
-       class="btn home">
-
-       🏠 Home
-
-    </a>
-
-    <table>
-
-        <tr>
-            <th>Nama Kategori</th>
-            <th>Deskripsi</th>
-            <th>Edit</th>
-            <th>Hapus</th>
-        </tr>
-
-        @foreach($kategori as $k)
-        <tr>
-            <td>{{ $k->nama_kategori }}</td>
-            <td>{{ $k->deskripsi }}</td>
-            <td>
-                <a href="/kategori/{{ $k->id }}/edit"class="edit">Edit</a>
-            </td>
-            <td>
-                <form action="/kategori/{{ $k->id }}"
-                      method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="hapus" onclick="return confirm('Apakah yakin ingin menghapus data ini?')">Hapus</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </table>
+    <div class="d-flex justify-content-between mb-3">
+            <h2 class="mb-0">Data Kategori</h2>
+            <a href="{{ route('kategori.create') }}" class="btn btn-light">
+                ➕ Tambah Kategori
+            </a>
+        </div>
+        <div class="card-body">
+            @if(session('success'))
+                <table class="table table-bordered table-hover text-center align-middle">
+                    {{ session('success') }}
+                </div>
+            @endif
+            <table class="table table-bordered table-hover align-middle text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th width="5%">No</th>
+                        <th width="25%">Nama Kategori</th>
+                        <th>Deskripsi</th>
+                        <th width="15%">Jumlah Produk</th>
+                        <th width="5%">Edit</th>
+                        <th width="5%">Hapus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @forelse($kategori as $item)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $item->nama_kategori }}</td>
+                        <td>{{ $item->deskripsi }}</td>
+                        <td>
+                            <span class="badge text-black">
+                                {{ $item->produk_count }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{{ route('kategori.edit',$item->id) }}"
+                               class="btn btn-sm">
+                                ✏ 
+                            </a>
+                        </td>
+                        <td>
+                            <form action="{{ route('kategori.destroy',$item->id) }}"
+                                  method="POST"
+                                  style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button
+                                    onclick="return confirm('Yakin ingin menghapus kategori ini?')"
+                                    class="btn btn-sm">
+                                    🗑 
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5">
+                            Belum ada data kategori.
+                        </td>
+                    </tr>
+                @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
+</html> -->
+@endsection

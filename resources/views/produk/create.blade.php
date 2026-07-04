@@ -3,7 +3,7 @@
 <head>
     <title>Tambah Produk</title>
 
-    <style>
+    <!-- <style>
 
         *{
             margin:0;
@@ -67,50 +67,74 @@
             font-weight:bold;
         }
 
-    </style>
+    </style> -->
 
 </head>
 <body>
+@extends('layouts.app')
 
+@section('content')
 <div class="container">
 
     <h1>➕ Tambah Produk</h1>
 
-    <form action="/produk"
-          method="POST">
+    <form action="{{ route('produk.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
 
-        @csrf
+    <div class="mb-3">
+        <label>Nama Baju</label>
+        <input type="text" name="nama_baju" class="form-control">
+    </div>
 
-        <input type="text"
-               name="nama_baju"
-               placeholder="Nama Baju">
+    <div class="mb-3">
+        <label>Harga</label>
+        <input type="number" name="harga" class="form-control">
+    </div>
 
-        <input type="text"
-               name="ukuran"
-               placeholder="Ukuran">
+    <div class="mb-3">
+        <label>Ukuran</label>
+        <input type="text" name="ukuran" class="form-control">
+    </div>
 
-        <input type="number"
-               name="harga"
-               placeholder="Harga">
+    <div class="mb-3">
+        <label>Stok</label>
+        <input type="number" name="stok" class="form-control">
+    </div>
 
-        <input type="number"
-               name="stok"
-               placeholder="Stok">
+    <div class="mb-3">
+        <label>Foto Produk</label>
+        <input type="file" name="upload_foto" class="form-control">
+    </div>
 
-        <button type="submit">
-            Simpan
-        </button>
+    <div class="mb-3">
+    <label for="deskripsi" class="form-label">
+        Deskripsi Produk
+    </label>
+    <textarea
+        name="deskripsi"
+        id="deskripsi"
+        rows="4"
+        class="form-control"
+        placeholder="Masukkan deskripsi produk...">{{ old('deskripsi') }}</textarea>
+    </div>
 
-    </form>
+    <div class="mb-3">
+        <label class="form-label">Kategori</label>
+        <select name="kategori_id" class="form-select" required>
+            <option value="">-- Pilih Kategori --</option>
+            @foreach($kategori as $item)
+                <option value="{{ $item->id }}">
+                    {{ $item->nama_kategori }}
+                </option>
+            @endforeach
+        </select>
+    </div>
 
-    <a href="/produk"
-       class="home">
-
-       🏠 Kembali
-
-    </a>
-
+    <button type="submit" class="btn btn-primary">
+        Simpan
+    </button>
+</form>
 </div>
-
+@endsection
 </body>
 </html>

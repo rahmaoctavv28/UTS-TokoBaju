@@ -10,16 +10,23 @@ class Produk extends Model
 
     protected $fillable = [
         'nama_baju',
-        'ukuran',
         'harga',
+        'ukuran',
         'stok',
-        'kategori_id'        
+        'kategori_id',
+        'upload_foto',   
+        'deskripsi'    
     ];
 
 
     public function kategori()
     {
+
         return $this->belongsTo(Kategori::class);
+    }
+
+    public function supplier(){
+        return $this->belongsTo(Supplier::class);
     }
 
 
@@ -57,4 +64,5 @@ class Produk extends Model
 
         return true;
     }
+    
 }

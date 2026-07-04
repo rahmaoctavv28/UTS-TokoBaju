@@ -1,117 +1,104 @@
-<!DOCTYPE html>
-<html>
+<!-- <!DOCTYPE html>
+<html lang="id">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Produk</title>
-
-    <style>
-
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial;
-        }
-
-        body{
-            min-height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            background: linear-gradient(135deg,#ffe066,#ff6ec7,#6ea8ff);
-        }
-
-        .container{
-            width:700px;
-            background:white;
-            padding:40px;
-            border-radius:25px;
-            box-shadow:0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        h1{
-            text-align:center;
-            color:#ff1493;
-            margin-bottom:30px;
-        }
-
-        input{
-            width:100%;
-            padding:15px;
-            margin-bottom:20px;
-            border:none;
-            border-radius:15px;
-            background:#f3f3f3;
-        }
-
-        button{
-            width:100%;
-            padding:15px;
-            border:none;
-            border-radius:15px;
-            background:#ff1493;
-            color:white;
-            font-size:18px;
-            font-weight:bold;
-            cursor:pointer;
-        }
-
-        .home{
-            display:block;
-            text-align:center;
-            margin-top:20px;
-            background:#6ea8ff;
-            color:white;
-            padding:15px;
-            border-radius:15px;
-            text-decoration:none;
-            font-weight:bold;
-        }
-
-    </style>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light"> -->
 
-<div class="container">
+@extends('layouts.app')
 
-    <h1>✏️ Edit Produk</h1>
+@section('content')
 
-    <form action="/produk/{{ $produk->id }}"
-          method="POST">
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-warning text-dark">
+            <h3 class="mb-0">✏️ Edit Produk</h3>
+        </div>
+        <div class="card-body">
+            <form action="{{ route('produk.update',$produk->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="mb-3">
+                    <label class="form-label">Nama Produk</label>
+                    <input type="text"
+                           name="nama_baju"
+                           class="form-control"
+                           value="{{ $produk->nama_baju }}">
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Ukuran</label>
+                        <input type="text"
+                               name="ukuran"
+                               class="form-control"
+                               value="{{ $produk->ukuran }}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Harga</label>
+                        <input type="number"
+                               name="harga"
+                               class="form-control"
+                               value="{{ $produk->harga }}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Stok</label>
+                        <input type="number"
+                               name="stok"
+                               class="form-control"
+                               value="{{ $produk->stok }}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Kategori</label>
+                        <select name="kategori_id" class="form-select">
+                            @foreach($kategori as $item)
+                                <option value="{{ $item->id }}"
+                                    {{ $produk->kategori_id == $item->id ? 'selected' : '' }}>
+                                    {{ $item->nama_kategori }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Foto Produk</label>
+                    <input type="file"
+                           name="upload_foto"
+                           class="form-control">
+                </div>
+                @if($produk->upload_foto)
+                    <div class="mb-3">
+                        <img src="{{ asset('storage/'.$produk->upload_foto) }}"
+                             width="150"
+                             class="img-thumbnail">
+                    </div>
+                <div class="mb-3">
+                    <label for="deskripsi" class="form-label">
+                        Deskripsi Produk
+                    </label>
 
-        @csrf
-        @method('PUT')
-
-        <input type="text"
-               name="nama_baju"
-               value="{{ $produk->nama_baju }}">
-
-        <input type="text"
-               name="ukuran"
-               value="{{ $produk->ukuran }}">
-
-        <input type="number"
-               name="harga"
-               value="{{ $produk->harga }}">
-
-        <input type="number"
-               name="stok"
-               value="{{ $produk->stok }}">
-
-        <button type="submit">
-            Update
-        </button>
-
-    </form>
-
-    <a href="/produk"
-       class="home">
-
-       🏠 Kembali
-
-    </a>
-
+                    <textarea
+                        name="deskripsi"
+                        id="deskripsi"
+                        rows="4"
+                        class="form-control">{{ old('deskripsi', $produk->deskripsi) }}</textarea>
+                </div>
+                @endif
+                <button class="btn btn-warning">
+                    💾 Update Produk
+                </button>
+                <a href="{{ route('produk.index') }}"
+                   class="btn btn-secondary">
+                    ← Kembali
+                </a>
+            </form>
+        </div>
+    </div>
 </div>
-
-</body>
-</html>
+<!-- </body>
+</html> -->
+@endsection

@@ -1,0 +1,348 @@
+/* ===========================================
+   ODELWEAR ADMIN PANEL
+=========================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#f5f7fb;
+}
+
+/* ==========================
+        WRAPPER
+========================== */
+
+.wrapper{
+    display:flex;
+    width:100%;
+    min-height:100vh;
+}
+
+/* ==========================
+        SIDEBAR
+========================== */
+
+.sidebar{
+    width:260px;
+    background:linear-gradient(180deg,#4f46e5,#312e81);
+    color:#fff;
+
+    position:fixed;
+    top:0;
+    left:0;
+
+    height:100vh;
+
+    display:flex;
+    flex-direction:column;
+
+    overflow:hidden;
+}
+
+.sidebar.collapsed{
+    width:80px;
+}
+
+/* Logo */
+
+.logo{
+    height:80px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    font-size:24px;
+    font-weight:700;
+    border-bottom:1px solid rgba(255,255,255,.15);
+}
+
+.logo i{
+    font-size:30px;
+}
+
+.logo-text{
+    transition:.3s;
+}
+
+.sidebar.collapsed .logo-text{
+    display:none;
+}
+
+/* Menu */
+
+.menu{
+    list-style:none;
+    padding:20px 0;
+    margin:0;
+
+    flex:1;
+}
+
+.menu li{
+    margin-bottom:10px;
+}
+
+.menu li a{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:14px 18px;
+    color:white;
+    text-decoration:none;
+    border-radius:12px;
+    transition:.3s;
+}
+
+.menu li a:hover{
+    background:rgba(255,255,255,.15);
+    transform:translateX(5px);
+}
+
+.menu li a.active{
+    background:white;
+    color:#4f46e5;
+    font-weight:600;
+}
+
+.menu li a i{
+    font-size:20px;
+    min-width:22px;
+}
+
+.sidebar.collapsed .menu li a span{
+    display:none;
+}
+
+.sidebar.collapsed .menu li a{
+    justify-content:center;
+}
+
+/* Footer Sidebar */
+
+.sidebar-footer{
+    padding:20px;
+    border-top:1px solid rgba(255,255,255,.15);
+}
+
+.sidebar-footer{
+    margin-top:auto;
+    padding:20px;
+    border-top:1px solid rgba(255,255,255,.15);
+}
+
+.logout{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    color:#ffb4b4;
+    text-decoration:none;
+    font-weight:500;
+}
+
+.logout i{
+    font-size:22px;
+    width:25px;
+}
+
+.logout:hover{
+    color:white;
+}
+
+/* ==========================
+        MAIN
+========================== */
+
+.main{
+    margin-left:260px;
+    width:calc(100% - 260px);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    transition:.3s;
+}
+
+.sidebar.collapsed + .main{
+    margin-left:80px;
+    width:calc(100% - 80px);
+}
+
+/* ==========================
+        NAVBAR
+========================== */
+
+.navbar{
+    background:white;
+    height:80px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    box-shadow:0 3px 15px rgba(0,0,0,.08);
+}
+
+.navbar h4{
+    margin:0;
+    font-weight:700;
+}
+
+.navbar .search-box{
+    width:350px;
+}
+
+.navbar input{
+    border-radius:12px;
+}
+
+/* ==========================
+        CONTENT
+========================== */
+
+.content{
+    padding:30px;
+    flex:1;
+}
+
+/* ==========================
+        CARD
+========================== */
+
+.card{
+    border:none;
+    border-radius:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.card-header{
+    background:white;
+    font-weight:600;
+    border-bottom:none;
+}
+
+/* ==========================
+        TABLE
+========================== */
+
+.table{
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+}
+
+.table thead{
+    background:#4f46e5;
+    color:white;
+}
+
+.table th,
+.table td{
+    text-align:center;
+    vertical-align:middle;
+}
+
+.table img{
+    border-radius:12px;
+}
+
+/* ==========================
+        BUTTON
+========================== */
+
+.btn{
+    border-radius:10px;
+}
+
+.btn-primary{
+    background:#4f46e5;
+    border:none;
+}
+
+.btn-primary:hover{
+    background:#4338ca;
+}
+
+.btn-warning{
+    color:white;
+}
+
+.btn-danger{
+    color:white;
+}
+
+/* ==========================
+        FORM
+========================== */
+
+.form-control,
+.form-select{
+    border-radius:12px;
+}
+
+.form-control:focus,
+.form-select:focus{
+    box-shadow:none;
+    border-color:#4f46e5;
+}
+
+/* ==========================
+        FOOTER
+========================== */
+
+.footer{
+    background:white;
+    border-top:1px solid #ddd;
+    padding:15px;
+    text-align:center;
+    color:#666;
+}
+
+/* ==========================
+        SCROLLBAR
+========================== */
+
+::-webkit-scrollbar{
+    width:7px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#4f46e5;
+    border-radius:20px;
+}
+
+/* ==========================
+        RESPONSIVE
+========================== */
+
+@media(max-width:992px){
+
+.sidebar{
+    left:-260px;
+}
+
+.sidebar.show{
+    left:0;
+}
+
+.main{
+    margin-left:0;
+    width:100%;
+}
+
+.sidebar.collapsed + .main{
+    margin-left:0;
+    width:100%;
+}
+
+.navbar{
+    padding:15px;
+}
+
+.navbar .search-box{
+    width:180px;
+}
+
+}

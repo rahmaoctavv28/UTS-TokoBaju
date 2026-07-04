@@ -19,6 +19,7 @@ class SupplierController extends Controller
         return view('supplier.create');
     }
 
+<<<<<<< HEAD
     public function store(Request $request)
     {
         Supplier::create([
@@ -30,6 +31,20 @@ class SupplierController extends Controller
 
         return redirect('/supplier')
             ->with('success', 'Data supplier berhasil ditambahkan');
+=======
+    public function store(Request $request){
+        $request->validate([
+            'nama_supplier'=>'required',
+            'no_hp'=>'required',
+            'alamat'=>'required'
+
+        ]);
+
+        Supplier::create($request->all());
+
+        return redirect()->route('supplier.index')
+                ->with('success','Supplier berhasil ditambahkan');
+>>>>>>> b98995d7adb5bb52dd11f4b3ee3f096fd2cc364e
     }
 
     public function edit($id)
@@ -50,8 +65,13 @@ class SupplierController extends Controller
             'kota' => $request->kota,
         ]);
 
+<<<<<<< HEAD
         return redirect('/supplier')
             ->with('success', 'Data supplier berhasil diubah');
+=======
+        return redirect()->route('supplier.index')
+                ->with('success','Supplier berhasil diupdate');
+>>>>>>> b98995d7adb5bb52dd11f4b3ee3f096fd2cc364e
     }
 
     public function destroy($id)
@@ -60,7 +80,12 @@ class SupplierController extends Controller
 
         $supplier->delete();
 
+<<<<<<< HEAD
         return redirect('/supplier')
             ->with('success', 'Data supplier berhasil dihapus');
+=======
+        return redirect()->route('supplier.index')
+                ->with('success','Supplier berhasil dihapus');
+>>>>>>> b98995d7adb5bb52dd11f4b3ee3f096fd2cc364e
     }
 }
