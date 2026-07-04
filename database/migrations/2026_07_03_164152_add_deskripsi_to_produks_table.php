@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pesanan_details', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('pesanan_id');
-            $table->foreignId('produk_id');
-            $table->integer('jumlah');
-            $table->integer('subtotal');
-            $table->timestamps();
+        Schema::table('produks', function (Blueprint $table) {
+            $table->text('deskripsi')->nullable()->after('upload_foto');
         });
     }
 
@@ -26,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pesanan_details');
+        Schema::table('produks', function (Blueprint $table) {
+            $table->dropColumn('deskripsi');
+        });
     }
 };

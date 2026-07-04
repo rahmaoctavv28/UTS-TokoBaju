@@ -1,147 +1,62 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Data Supplier</title>
+@extends('layouts.app')
 
-    <style>
-
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial;
-        }
-
-        body{
-            min-height:100vh;
-            background: linear-gradient(135deg,#ffe066,#ff6ec7,#6ea8ff);
-            padding:40px;
-        }
-
-        .container{
-            background:white;
-            padding:30px;
-            border-radius:25px;
-            box-shadow:0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        h1{
-            text-align:center;
-            color:#ff1493;
-            margin-bottom:30px;
-            font-size:40px;
-        }
-
-        .btn{
-            text-decoration:none;
-            background:#ff1493;
-            color:white;
-            padding:12px 20px;
-            border-radius:12px;
-            display:inline-block;
-            margin-bottom:25px;
-            font-weight:bold;
-        }
-
-        .home{
-            background:#6ea8ff;
-            float:right;
-        }
-
-        table{
-            width:100%;
-            border-collapse:collapse;
-        }
-
-        th{
-            background:#ff1493;
-            color:white;
-            padding:15px;
-        }
-
-        td{
-            padding:15px;
-            text-align:center;
-            background:#fff5fa;
-        }
-
-        tr:nth-child(even) td{
-            background:#f3f7ff;
-        }
-
-        .edit{
-            background:orange;
-            color:white;
-            padding:10px 15px;
-            border-radius:10px;
-            text-decoration:none;
-            font-weight:bold;
-        }
-
-        .hapus{
-            background:red;
-            color:white;
-            border:none;
-            padding:10px 15px;
-            border-radius:10px;
-            cursor:pointer;
-            font-weight:bold;
-        }
-
-    </style>
-
-</head>
-<body>
-
-<div class="container">
-
-    <h1>🏪 Data Supplier</h1>
-
-    <a href="/supplier/create"
-       class="btn">
-
-       + Tambah Supplier
-
-    </a>
-
-    <a href="/"
-       class="btn home">
-
-       🏠 Home
-
-    </a>
-
-    <table>
-
-        <tr>
-            <th>Nama Supplier</th>
-            <th>No HP</th>
-            <th>Alamat</th>
-            <th>Kota</th>
-            <th>Edit</th>
-            <th>Hapus</th>
-        </tr>
-        @foreach($supplier as $s)
-        <tr>
-            <td>{{ $s->nama_supplier }}</td>
-            <td>{{ $s->no_hp }}</td>
-            <td>{{ $s->alamat }}</td>
-            <td>{{ $s->kota }}</td>
-            <td>
-                <a href="/supplier/{{ $s->id }}/edit" class="edit">Edit</a>
-            </td>
-            <td>
-                <form action="/supplier/{{ $s->id }}"
-                      method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="hapus" onclick="return confirm('Apakah yakin ingin menghapus data ini?')">Hapus</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </table>
+@section('content')
+<div class="container mt-4">
+        <div class="card-header text-black">
+                <div class="d-flex justify-content-between mb-3">
+                    <h2>Data Supplier</h2>
+                    <a href="{{ route('supplier.create') }}" class="btn btn-light">
+                    ➕ Tambah Supplier
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            <table class="table table-bordered table-hover text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th width="5%">No</th>
+                        <th>Nama Supplier</th>
+                        <th>No HP</th>
+                        <th>Alamat</th>
+                        <th width="8%">Edit</th>
+                        <th width="8%">Hapus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @forelse($supplier as $item)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $item->nama_supplier }}</td>
+                        <td>{{ $item->no_hp }}</td>
+                        <td>{{ $item->alamat }}</td>
+                        <td>
+                            <a href="{{ route('supplier.edit',$item->id) }}" class="btn btn-warning btn-sm">✏</a>
+                        </td>
+                        <td>
+                            <form action="{{ route('supplier.destroy',$item->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button onclick="return confirm('Yakin ingin menghapus supplier ini?')" class="btn btn-danger btn-sm"> 🗑 </button>
+                            </form>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="7">
+                            Belum ada data supplier.
+                        </td>
+                    </tr>
+                @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
-</body>
-</html>
+@endsection

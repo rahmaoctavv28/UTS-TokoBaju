@@ -12,8 +12,11 @@ class PesananController extends Controller
 {
     public function index()
     {
-        $data = Pesanan::with('admin', 'pelanggan')->get();
-
+        // $data = Pesanan::with('admin', 'pelanggan')->get();
+        $pesanan = Pesanan::join('pelanggans','pesanans.pelanggan_id','=','pelanggans.id')
+        ->select('pesanans.*','pelanggans.nama_pelanggan')
+        ->get();
+        
         return view('pesanan.index', compact('data'));
     }
 

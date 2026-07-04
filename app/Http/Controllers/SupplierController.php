@@ -19,11 +19,18 @@ class SupplierController extends Controller
         return view('supplier.create');
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request){
+        $request->validate([
+            'nama_supplier'=>'required',
+            'no_hp'=>'required',
+            'alamat'=>'required'
+
+        ]);
+
         Supplier::create($request->all());
 
-        return redirect('/supplier');
+        return redirect()->route('supplier.index')
+                ->with('success','Supplier berhasil ditambahkan');
     }
 
     public function edit($id)
@@ -39,7 +46,8 @@ class SupplierController extends Controller
 
         $supplier->update($request->all());
 
-        return redirect('/supplier');
+        return redirect()->route('supplier.index')
+                ->with('success','Supplier berhasil diupdate');
     }
 
     public function destroy($id)
@@ -48,6 +56,7 @@ class SupplierController extends Controller
 
         $supplier->delete();
 
-        return redirect('/supplier');
+        return redirect()->route('supplier.index')
+                ->with('success','Supplier berhasil dihapus');
     }
 }

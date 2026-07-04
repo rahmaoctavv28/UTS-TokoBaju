@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\PelangganController;
@@ -17,6 +18,8 @@ use App\Models\Produk;
 use App\Models\Pelanggan;
 use App\Models\Pesanan;
 
+Route::get('/DashboardAdmin', [DashboardController::class, 'index'])
+->name('dashboardadmin');
 
 Route::resource('produk', ProdukController::class);
 
