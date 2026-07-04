@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tambah Stok</title>
+    <title>Tambah Stok Barang</title>
 
     <style>
 
@@ -9,101 +9,123 @@
             margin:0;
             padding:0;
             box-sizing:border-box;
-            font-family:Arial;
+            font-family:'Segoe UI',sans-serif;
         }
 
         body{
+            background:#eef2f7;
             min-height:100vh;
             display:flex;
             justify-content:center;
             align-items:center;
-            background: linear-gradient(135deg,#ffe066,#ff6ec7,#6ea8ff);
+            padding:30px;
         }
 
-        .container{
-            width:700px;
+        .card{
+            width:800px;
             background:white;
             padding:40px;
             border-radius:25px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.1);
         }
 
         h1{
             text-align:center;
-            color:#ff1493;
             margin-bottom:30px;
+            color:#183153;
         }
 
-        input{
+        label{
+            display:block;
+            margin-bottom:8px;
+            font-weight:bold;
+            color:#444;
+        }
+
+        input,select{
             width:100%;
             padding:15px;
+            border:1px solid #ddd;
+            border-radius:12px;
             margin-bottom:20px;
-            border:none;
-            border-radius:15px;
-            background:#f3f3f3;
+            font-size:15px;
         }
 
         button{
             width:100%;
             padding:15px;
             border:none;
-            border-radius:15px;
-            background:#ff1493;
+            border-radius:12px;
+            background:#3465e1;
             color:white;
-            font-size:18px;
+            font-size:16px;
             font-weight:bold;
+            cursor:pointer;
         }
 
-        .home{
+        .back{
             display:block;
             text-align:center;
-            margin-top:20px;
-            background:#6ea8ff;
-            color:white;
-            padding:15px;
-            border-radius:15px;
             text-decoration:none;
+            margin-top:15px;
+            padding:15px;
+            border-radius:12px;
+            background:#6b7280;
+            color:white;
             font-weight:bold;
         }
 
     </style>
-
 </head>
 <body>
 
-<div class="container">
+<div class="card">
 
-    <h1>➕ Tambah Stok</h1>
+    <h1>📦 Tambah Stok Barang</h1>
 
-    <form action="/stok"
-          method="POST">
+    <form action="/stok" method="POST">
 
         @csrf
 
-        <input type="number" name="produk_id" placeholder="Produk ID">
+        <label>Nama Produk</label>
 
-        <input type="number" name="stok_awal" placeholder="Stok Awal">
+        <select name="produk_id" required>
 
-        <input type="number" name="stok_masuk" placeholder="Stok Masuk">
+            <option value="">-- Pilih Produk --</option>
 
-        <input type="number" name="stok_keluar" placeholder="Stok Keluar">
+            @foreach($produk as $p)
 
-        <input type="number" name="stok_akhir" placeholder="Stok Akhir">
+                <option value="{{ $p->id }}">
+                    {{ $p->nama_baju }}
+                </option>
 
-        <input type="text" name="keterangan" placeholder="Keterangan">
+            @endforeach
 
-        <input type="number" name="user_id" placeholder="User ID">
+        </select>
+
+        <label>Stok Awal</label>
+        <input type="number" name="stok_awal" required>
+
+        <label>Stok Masuk</label>
+        <input type="number" name="stok_masuk" required>
+
+        <label>Stok Keluar</label>
+        <input type="number" name="stok_keluar" value="0">
+
+        <label>Stok Akhir</label>
+        <input type="number" name="stok_akhir" required>
+
+        <label>Keterangan</label>
+        <input type="text" name="keterangan">
 
         <button type="submit">
-            Simpan
+            Simpan Data
         </button>
 
     </form>
 
-    <a href="/stok"
-       class="home">
-
-       🏠 Kembali
-
+    <a href="/stok" class="back">
+        ⬅ Kembali
     </a>
 
 </div>

@@ -21,9 +21,15 @@ class SupplierController extends Controller
 
     public function store(Request $request)
     {
-        Supplier::create($request->all());
+        Supplier::create([
+            'nama_supplier' => $request->nama_supplier,
+            'no_hp' => $request->no_hp,
+            'alamat' => $request->alamat,
+            'kota' => $request->kota,
+        ]);
 
-        return redirect('/supplier');
+        return redirect('/supplier')
+            ->with('success', 'Data supplier berhasil ditambahkan');
     }
 
     public function edit($id)
@@ -37,9 +43,15 @@ class SupplierController extends Controller
     {
         $supplier = Supplier::findOrFail($id);
 
-        $supplier->update($request->all());
+        $supplier->update([
+            'nama_supplier' => $request->nama_supplier,
+            'no_hp' => $request->no_hp,
+            'alamat' => $request->alamat,
+            'kota' => $request->kota,
+        ]);
 
-        return redirect('/supplier');
+        return redirect('/supplier')
+            ->with('success', 'Data supplier berhasil diubah');
     }
 
     public function destroy($id)
@@ -48,6 +60,7 @@ class SupplierController extends Controller
 
         $supplier->delete();
 
-        return redirect('/supplier');
+        return redirect('/supplier')
+            ->with('success', 'Data supplier berhasil dihapus');
     }
 }

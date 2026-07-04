@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Produk;
 
 class StokHistory extends Model
 {
@@ -18,9 +19,8 @@ class StokHistory extends Model
         'user_id'
     ];
 
-    // Relasi ke Produk
     public function produk()
     {
-        return $this->belongsTo(Produk::class);
+        return $this->belongsTo(Produk::class, 'produk_id');
     }
 }

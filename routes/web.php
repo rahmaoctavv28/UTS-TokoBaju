@@ -2,21 +2,29 @@
 
 use Illuminate\Support\Facades\Route;
 
+/* CONTROLLERS */
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\AdminController;
-
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\DetailPesananController;
+use App\Http\Controllers\GudangController;
+use App\Http\Controllers\LaporanStokController;
 
+/* MODELS */
 use App\Models\Produk;
 use App\Models\Pelanggan;
 use App\Models\Pesanan;
 
+/*
+|--------------------------------------------------------------------------
+| RESOURCE ROUTES
+|--------------------------------------------------------------------------
+*/
 
 Route::resource('produk', ProdukController::class);
 
@@ -36,7 +44,27 @@ Route::resource('stok', StokController::class);
 
 Route::resource('detailpesanan', DetailPesananController::class);
 
+/*
+|--------------------------------------------------------------------------
+| DASHBOARD ADMIN GUDANG
+|--------------------------------------------------------------------------
+*/
 
+Route::get('/gudang', [GudangController::class, 'index']);
+
+/*
+|--------------------------------------------------------------------------
+| LAPORAN STOK
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/laporanstok', [LaporanStokController::class, 'index']);
+
+/*
+|--------------------------------------------------------------------------
+| HOME
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/', function () {
 
@@ -51,4 +79,5 @@ Route::get('/', function () {
         'pelanggan',
         'pesanan'
     ));
+
 });

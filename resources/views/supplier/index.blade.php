@@ -9,83 +9,117 @@
             margin:0;
             padding:0;
             box-sizing:border-box;
-            font-family:Arial;
+            font-family:'Segoe UI',sans-serif;
         }
 
         body{
-            min-height:100vh;
-            background: linear-gradient(135deg,#ffe066,#ff6ec7,#6ea8ff);
+            background:#eef2f7;
             padding:40px;
         }
 
         .container{
             background:white;
-            padding:30px;
             border-radius:25px;
-            box-shadow:0 10px 25px rgba(0,0,0,0.2);
+            padding:40px;
+            box-shadow:0 15px 35px rgba(0,0,0,0.1);
         }
 
-        h1{
-            text-align:center;
-            color:#ff1493;
+        .header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
             margin-bottom:30px;
-            font-size:40px;
+            flex-wrap:wrap;
+        }
+
+        .title{
+            display:flex;
+            align-items:center;
+            gap:15px;
+        }
+
+        .title h1{
+            color:#183153;
+            font-size:48px;
+            font-weight:800;
+        }
+
+        .actions{
+            display:flex;
+            gap:15px;
         }
 
         .btn{
             text-decoration:none;
-            background:#ff1493;
             color:white;
-            padding:12px 20px;
-            border-radius:12px;
-            display:inline-block;
-            margin-bottom:25px;
+            padding:15px 25px;
+            border-radius:15px;
+            font-size:20px;
             font-weight:bold;
         }
 
-        .home{
-            background:#6ea8ff;
-            float:right;
+        .btn-add{
+            background:#3465e1;
+        }
+
+        .btn-home{
+            background:#4b5c77;
+        }
+
+        .alert{
+            background:#d1fae5;
+            color:#065f46;
+            padding:15px;
+            border-radius:10px;
+            margin-bottom:20px;
+            font-weight:bold;
         }
 
         table{
             width:100%;
             border-collapse:collapse;
+            overflow:hidden;
+            border-radius:20px;
         }
 
         th{
-            background:#ff1493;
+            background:#1f2a44;
             color:white;
-            padding:15px;
+            padding:18px;
+            font-size:18px;
         }
 
         td{
             padding:15px;
             text-align:center;
-            background:#fff5fa;
+            border-bottom:1px solid #e5e7eb;
         }
 
-        tr:nth-child(even) td{
-            background:#f3f7ff;
+        tr:hover{
+            background:#f8fafc;
         }
 
         .edit{
-            background:orange;
+            background:#f59e0b;
             color:white;
+            text-decoration:none;
             padding:10px 15px;
             border-radius:10px;
-            text-decoration:none;
             font-weight:bold;
         }
 
         .hapus{
-            background:red;
+            background:#dc2626;
             color:white;
             border:none;
             padding:10px 15px;
             border-radius:10px;
-            cursor:pointer;
             font-weight:bold;
+            cursor:pointer;
+        }
+
+        form{
+            display:inline;
         }
 
     </style>
@@ -95,52 +129,116 @@
 
 <div class="container">
 
-    <h1>🏪 Data Supplier</h1>
+    <div class="header">
 
-    <a href="/supplier/create"
-       class="btn">
+        <div class="title">
+            <h1>🏢 Data Supplier</h1>
+        </div>
 
-       + Tambah Supplier
+        <div class="actions">
 
-    </a>
+            <a href="/supplier/create" class="btn btn-add">
+                + Tambah Supplier
+            </a>
 
-    <a href="/"
-       class="btn home">
+            <a href="/gudang" class="btn btn-home">
+                🏠 Dashboard Gudang
+            </a>
 
-       🏠 Home
+        </div>
 
-    </a>
+    </div>
+
+    {{-- NOTIFIKASI --}}
+    @if(session('success'))
+        <div class="alert">
+            {{ session('success') }}
+        </div>
+    @endif
 
     <table>
 
-        <tr>
-            <th>Nama Supplier</th>
-            <th>No HP</th>
-            <th>Alamat</th>
-            <th>Kota</th>
-            <th>Edit</th>
-            <th>Hapus</th>
-        </tr>
-        @foreach($supplier as $s)
-        <tr>
-            <td>{{ $s->nama_supplier }}</td>
-            <td>{{ $s->no_hp }}</td>
-            <td>{{ $s->alamat }}</td>
-            <td>{{ $s->kota }}</td>
-            <td>
-                <a href="/supplier/{{ $s->id }}/edit" class="edit">Edit</a>
-            </td>
-            <td>
-                <form action="/supplier/{{ $s->id }}"
-                      method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="hapus" onclick="return confirm('Apakah yakin ingin menghapus data ini?')">Hapus</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
+        <thead>
+
+            <tr>
+                <th>ID</th>
+                <th>Nama Supplier</th>
+                <th>No HP Supplier</th>
+                <th>Alamat Perusahaan</th>
+                <th>Jenis Barang</th>
+                <th>Edit</th>
+                <th>Hapus</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        @forelse($supplier as $s)
+
+            <tr>
+
+                <td>{{ $s->id }}</td>
+
+                <td>{{ $s->nama_supplier }}</td>
+
+                <td>{{ $s->no_hp }}</td>
+
+                <td>{{ $s->alamat }}</td>
+
+                <td>{{ $s->kota }}</td>
+
+                <td>
+
+                    <a href="/supplier/{{ $s->id }}/edit"
+                       class="edit">
+
+                       ✏ Edit
+
+                    </a>
+
+                </td>
+
+                <td>
+
+                    <form action="/supplier/{{ $s->id }}"
+                          method="POST">
+
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="submit"
+                                class="hapus"
+                                onclick="return confirm('Yakin ingin menghapus supplier ini?')">
+
+                            🗑 Hapus
+
+                        </button>
+
+                    </form>
+
+                </td>
+
+            </tr>
+
+        @empty
+
+            <tr>
+
+                <td colspan="7">
+
+                    Data supplier masih kosong
+
+                </td>
+
+            </tr>
+
+        @endforelse
+
+        </tbody>
+
     </table>
+
 </div>
 
 </body>

@@ -9,71 +9,76 @@
             margin:0;
             padding:0;
             box-sizing:border-box;
-            font-family:Arial;
+            font-family:'Segoe UI',sans-serif;
         }
 
         body{
-            min-height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            background: linear-gradient(135deg,#ffe066,#ff6ec7,#6ea8ff);
+            background:#eef2f7;
+            padding:40px;
         }
 
         .container{
-            width:700px;
+            max-width:800px;
+            margin:auto;
             background:white;
-            padding:40px;
             border-radius:25px;
-            box-shadow:0 10px 25px rgba(0,0,0,0.2);
+            padding:40px;
+            box-shadow:0 15px 35px rgba(0,0,0,0.1);
         }
 
         h1{
-            text-align:center;
-            color:#ff1493;
+            font-size:45px;
+            color:#183153;
             margin-bottom:30px;
+            font-weight:800;
+        }
+
+        label{
+            display:block;
+            margin-bottom:8px;
+            color:#334155;
+            font-weight:600;
         }
 
         input{
             width:100%;
             padding:15px;
+            border:1px solid #d1d5db;
+            border-radius:12px;
             margin-bottom:20px;
-            border:none;
-            border-radius:15px;
-            background:#f3f3f3;
+            font-size:16px;
         }
 
-        textarea{
-            width:100%;
-            padding:15px;
-            margin-bottom:20px;
-            border:none;
-            border-radius:15px;
-            background:#f3f3f3;
-            height:100px;
+        input:focus{
+            outline:none;
+            border-color:#3465e1;
         }
 
-        button{
+        .btn{
             width:100%;
-            padding:15px;
             border:none;
-            border-radius:15px;
-            background:#ff1493;
+            background:#3465e1;
             color:white;
+            padding:16px;
+            border-radius:12px;
             font-size:18px;
             font-weight:bold;
             cursor:pointer;
         }
 
-        .home{
+        .btn:hover{
+            background:#2954c8;
+        }
+
+        .back{
             display:block;
             text-align:center;
-            margin-top:20px;
-            background:#6ea8ff;
-            color:white;
-            padding:15px;
-            border-radius:15px;
+            margin-top:15px;
             text-decoration:none;
+            background:#4b5c77;
+            color:white;
+            padding:16px;
+            border-radius:12px;
             font-weight:bold;
         }
 
@@ -86,37 +91,42 @@
 
     <h1>➕ Tambah Supplier</h1>
 
-    <form action="/supplier"
-          method="POST">
+    <form action="/supplier" method="POST">
 
         @csrf
 
+        <label>Nama Supplier</label>
         <input type="text"
                name="nama_supplier"
-               placeholder="Nama Supplier">
+               placeholder="Masukkan Nama Supplier"
+               required>
 
+        <label>No HP Supplier</label>
         <input type="text"
                name="no_hp"
-               placeholder="No HP">
+               placeholder="Masukkan No HP Supplier"
+               required>
 
-        <textarea name="alamat"
-                  placeholder="Alamat"></textarea>
+        <label>Alamat Perusahaan</label>
+        <input type="text"
+               name="alamat"
+               placeholder="Masukkan Alamat Perusahaan"
+               required>
 
+        <label>Jenis Barang</label>
         <input type="text"
                name="kota"
-               placeholder="Kota">
+               placeholder="Contoh : Baju Wanita, Baju Pria, Hijab"
+               required>
 
-        <button type="submit">
-            Simpan
+        <button type="submit" class="btn">
+            Simpan Data Supplier
         </button>
 
     </form>
 
-    <a href="/supplier"
-       class="home">
-
-       🏠 Kembali
-
+    <a href="/supplier" class="back">
+        ← Kembali ke Data Supplier
     </a>
 
 </div>

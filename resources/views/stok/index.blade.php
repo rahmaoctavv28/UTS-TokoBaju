@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Data Stok</title>
+    <title>Data Stok Barang</title>
 
     <style>
 
@@ -9,12 +9,12 @@
             margin:0;
             padding:0;
             box-sizing:border-box;
-            font-family:Arial;
+            font-family:'Segoe UI',sans-serif;
         }
 
         body{
             min-height:100vh;
-            background: linear-gradient(135deg,#ffe066,#ff6ec7,#6ea8ff);
+            background:#eef2f7;
             padding:40px;
         }
 
@@ -22,19 +22,18 @@
             background:white;
             padding:30px;
             border-radius:25px;
-            box-shadow:0 10px 25px rgba(0,0,0,0.2);
+            box-shadow:0 10px 25px rgba(0,0,0,0.15);
         }
 
         h1{
             text-align:center;
-            color:#ff1493;
+            color:#183153;
             margin-bottom:30px;
             font-size:40px;
         }
 
         .btn{
             text-decoration:none;
-            background:#ff1493;
             color:white;
             padding:12px 20px;
             border-radius:12px;
@@ -43,9 +42,22 @@
             font-weight:bold;
         }
 
+        .tambah{
+            background:#3465e1;
+        }
+
         .home{
-            background:#6ea8ff;
+            background:#6b7280;
             float:right;
+        }
+
+        .alert{
+            background:#d4edda;
+            color:#155724;
+            padding:15px;
+            border-radius:12px;
+            margin-bottom:20px;
+            font-weight:bold;
         }
 
         table{
@@ -54,7 +66,7 @@
         }
 
         th{
-            background:#ff1493;
+            background:#183153;
             color:white;
             padding:15px;
         }
@@ -62,15 +74,15 @@
         td{
             padding:15px;
             text-align:center;
-            background:#fff5fa;
+            border-bottom:1px solid #e5e7eb;
         }
 
-        tr:nth-child(even) td{
-            background:#f3f7ff;
+        tr:nth-child(even){
+            background:#f8fafc;
         }
 
         .edit{
-            background:orange;
+            background:#f59e0b;
             color:white;
             padding:10px 15px;
             border-radius:10px;
@@ -79,7 +91,7 @@
         }
 
         .hapus{
-            background:red;
+            background:#dc2626;
             color:white;
             border:none;
             padding:10px 15px;
@@ -95,59 +107,103 @@
 
 <div class="container">
 
-    <h1>📦 Data Stok</h1>
+    <h1>📦 Data Stok Barang</h1>
+
+    @if(session('success'))
+        <div class="alert">
+            {{ session('success') }}
+        </div>
+    @endif
 
     <a href="/stok/create"
-       class="btn">
+       class="btn tambah">
 
-       + Tambah Data
+       + Tambah Stok
 
     </a>
 
-    <a href="/"
+    <a href="/gudang"
        class="btn home">
 
-       🏠 Home
+       🏠 Dashboard
 
     </a>
 
     <table>
 
         <tr>
-            <th>Produk ID</th>
+            <th>ID Produk</th>
+            <th>Nama Produk</th>
             <th>Stok Awal</th>
             <th>Stok Masuk</th>
             <th>Stok Keluar</th>
             <th>Stok Akhir</th>
+            <th>Tanggal Masuk</th>
             <th>Keterangan</th>
-            <th>User ID</th>
             <th>Edit</th>
             <th>Hapus</th>
         </tr>
+
         @foreach($stok as $s)
+
         <tr>
+
             <td>{{ $s->produk_id }}</td>
-            <td>{{ $s->stok_awal }}</td>
-            <td>{{ $s->stok_masuk }}</td>
-            <td>{{ $s->stok_keluar }}</td>
-            <td>{{ $s->stok_akhir }}</td>
-            <td>{{ $s->keterangan }}</td>
-            <td>{{ $s->user_id }}</td>
+
             <td>
-                <a href="/stok/{{ $s->id }}/edit" class="edit">Edit</a>
+                {{ $s->produk->nama_baju ?? '-' }}
             </td>
+
+            <td>{{ $s->stok_awal }}</td>
+
+            <td>{{ $s->stok_masuk }}</td>
+
+            <td>{{ $s->stok_keluar }}</td>
+
+            <td>{{ $s->stok_akhir }}</td>
+
+            <td>
+                {{ $s->created_at->format('d-m-Y') }}
+            </td>
+
+            <td>{{ $s->keterangan }}</td>
+
+            <td>
+                <a href="/stok/{{ $s->id }}/edit"
+                   class="edit">
+
+                    Edit
+
+                </a>
+            </td>
+
             <td>
 
                 <form action="/stok/{{ $s->id }}"
                       method="POST">
+
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="hapus" onclick="return confirm('Apakah yakin ingin menghapus data ini?')">Hapus</button>
+
+                    <button
+                        type="submit"
+                        class="hapus"
+                        onclick="return confirm('Yakin ingin menghapus data ini?')">
+
+                        Hapus
+
+                    </button>
+
                 </form>
+
             </td>
+
         </tr>
+
         @endforeach
+
     </table>
+
 </div>
 
 </body>
