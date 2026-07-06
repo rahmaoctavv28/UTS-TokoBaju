@@ -2,11 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-<<<<<<< HEAD
 /* CONTROLLERS */
-=======
 use App\Http\Controllers\DashboardController;
->>>>>>> b98995d7adb5bb52dd11f4b3ee3f096fd2cc364e
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\PelangganController;
@@ -24,16 +21,11 @@ use App\Models\Produk;
 use App\Models\Pelanggan;
 use App\Models\Pesanan;
 
-<<<<<<< HEAD
 /*
-|--------------------------------------------------------------------------
-| RESOURCE ROUTES
-|--------------------------------------------------------------------------
-*/
-=======
+| RESOURCE ROUTES*/
+
 Route::get('/DashboardAdmin', [DashboardController::class, 'index'])
 ->name('dashboardadmin');
->>>>>>> b98995d7adb5bb52dd11f4b3ee3f096fd2cc364e
 
 Route::resource('produk', ProdukController::class);
 
@@ -54,25 +46,19 @@ Route::resource('stok', StokController::class);
 Route::resource('detailpesanan', DetailPesananController::class);
 
 /*
-|--------------------------------------------------------------------------
 | DASHBOARD ADMIN GUDANG
-|--------------------------------------------------------------------------
 */
 
 Route::get('/gudang', [GudangController::class, 'index']);
 
 /*
-|--------------------------------------------------------------------------
 | LAPORAN STOK
-|--------------------------------------------------------------------------
 */
 
 Route::get('/laporanstok', [LaporanStokController::class, 'index']);
 
 /*
-|--------------------------------------------------------------------------
 | HOME
-|--------------------------------------------------------------------------
 */
 
 Route::get('/', function () {
