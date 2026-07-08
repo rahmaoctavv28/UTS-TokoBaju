@@ -15,6 +15,7 @@ use App\Http\Controllers\StokController;
 use App\Http\Controllers\DetailPesananController;
 use App\Http\Controllers\GudangController;
 use App\Http\Controllers\LaporanStokController;
+use App\Http\Controllers\KasirController;
 
 /* MODELS */
 use App\Models\Produk;
@@ -58,8 +59,18 @@ Route::get('/gudang', [GudangController::class, 'index']);
 Route::get('/laporanstok', [LaporanStokController::class, 'index']);
 
 /*
+| DASHBOARD KASIR
+*/
+
+Route::get('/kasir', [TransaksiController::class,'index']);
+
+/*
 | HOME
 */
+
+Route::get('/', function () {
+    return view('kasir');
+});
 
 Route::get('/', function () {
 
@@ -73,6 +84,7 @@ Route::get('/', function () {
         'produk',
         'pelanggan',
         'pesanan'
-    ));
+        ));
+
 
 });

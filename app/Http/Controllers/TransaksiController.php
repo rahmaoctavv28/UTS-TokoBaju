@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Produk;
 use App\Models\Transaksi;
 use App\Models\Pesanan;
 use App\Models\Pelanggan;
@@ -10,11 +11,9 @@ use App\Models\Pelanggan;
 class TransaksiController extends Controller
 {
     public function index()
-    {
-        $transaksi = Transaksi::all();
-
-        return view('transaksi.index', compact('transaksi'));
-    }
+{
+    return view('kasir');
+}
 
     public function create()
     {
@@ -32,16 +31,25 @@ class TransaksiController extends Controller
         $kembalian = $uang_dibayar - $total_bayar;
         Transaksi::create([
             'pesanan_id' => $request->pesanan_id,
+            'nama_kasir' => auth()->user()->name,
             'kode_transaksi' => $request->kode_transaksi,
+            'produk_id' => $request->produk_id,
+            'nama_produk' => $request->nama_produk,
+            'jumlah_produk' => $request->jumlah_produk,
+            'harga_satuan' => $request->harga_satuan,
+            'subtotal' => $request->jumlah_produk * $request->harga_satuan,
             'metode_pembayaran' => $request->metode_pembayaran,
             'total_bayar' => $total_bayar,
             'uang_dibayar' => $uang_dibayar,
-            'kembalian' => $kembalian,
+            'kembalian' => $request->uang_dibayar
+                ? $request->uang_dibayar - ($request->jumlah_produk * $request->harga_satuan)
+                : null,
             'status' => $request->status,
             'tanggal_transaksi' => $request->tanggal_transaksi,
         ]);
 
-        return redirect('/transaksi');
+        return redirect()->route('transaksi.index')
+                        ->with('success', 'Transaksi berhasil ditambahkan.');
     }
 
     public function edit($id)
