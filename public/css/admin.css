@@ -29,7 +29,7 @@ body{
 
 .sidebar{
     width:260px;
-    background:linear-gradient(180deg,#4f46e5,#312e81);
+    background:linear-gradient(180deg,#0d095f,#090757);
     color:#fff;
 
     position:fixed;
@@ -51,6 +51,27 @@ body{
 /* Logo */
 
 .logo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 20px;
+}
+
+.logo-img{
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 50%; /* Hilangkan jika ingin logo tetap kotak */
+}
+
+.logo-text{
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+}
+
+/* .logo{
     height:80px;
     display:flex;
     justify-content:center;
@@ -67,7 +88,7 @@ body{
 
 .logo-text{
     transition:.3s;
-}
+} */
 
 .sidebar.collapsed .logo-text{
     display:none;
@@ -105,7 +126,7 @@ body{
 
 .menu li a.active{
     background:white;
-    color:#4f46e5;
+    color:#08045a;
     font-weight:600;
 }
 
@@ -343,6 +364,59 @@ body{
 
 .navbar .search-box{
     width:180px;
+}
+
+.card{
+    border: none;
+    border-radius: 15px;
+    transition: .3s;
+}
+
+.card:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,.15);
+}
+
+.border-start{
+    border-left-width:6px !important;
+}
+
+.card-body h2,
+.card-body h3{
+    font-weight:700;
+}
+
+.card-body h6{
+    color:#6c757d;
+}
+
+/* =========================
+        PRINT RESI
+========================= */
+
+@media print {
+
+    .sidebar,
+    .navbar,
+    .footer,
+    .btn,
+    .card-header {
+        display: none !important;
+    }
+
+    .main {
+        margin-left: 0 !important;
+    }
+
+    body {
+        background: white !important;
+    }
+
+    #area-print {
+        border: none !important;
+        box-shadow: none !important;
+    }
+
 }
 
 }

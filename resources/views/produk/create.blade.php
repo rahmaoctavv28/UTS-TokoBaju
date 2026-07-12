@@ -96,10 +96,10 @@
         <input type="text" name="ukuran" class="form-control">
     </div>
 
-    <div class="mb-3">
+    <!-- <div class="mb-3">
         <label>Stok</label>
         <input type="number" name="stok" class="form-control">
-    </div>
+    </div> -->
 
     <div class="mb-3">
         <label>Foto Produk</label>

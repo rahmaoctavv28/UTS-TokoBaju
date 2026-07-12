@@ -9,6 +9,8 @@ class StokHistory extends Model
 {
     protected $table = 'stok_histories';
 
+    protected $guarded = [];
+
     protected $fillable = [
         'produk_id',
         'stok_awal',

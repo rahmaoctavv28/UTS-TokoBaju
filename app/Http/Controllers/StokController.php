@@ -107,4 +107,19 @@ class StokController extends Controller
         return redirect('/stok')
             ->with('success', 'Data stok berhasil dihapus');
     }
+
+    // public function stokadmin(){
+    //     $stok = StokHistory::with('produk')->get();
+
+    //     return view('stokadmin.index', compact('stok'));
+    // }
+
+    public function admin()
+    {
+        $stok = StokHistory::with('produk')
+                    ->latest()
+                    ->get();
+
+        return view('stokadmin.index', compact('stok'));
+    }
 }

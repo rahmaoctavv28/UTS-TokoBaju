@@ -11,13 +11,13 @@
     <div class="row">
         <!-- Total Produk -->
         <div class="col-md-3 mb-3">
-            <div class="card shadow border-0 bg-primary text-white">
+            <div class="card shadow border-start border-5 border-primary text-black">
                 <div class="card-body">
                     <h5>Total Produk</h5>
-                    <h2>{{ $totalProduk }}</h2>
+                    <h1>{{ $totalProduk }}</h1>
 
                     <a href="{{ route('produk.index') }}"
-                        class="btn btn-light btn-sm mt-3">
+                        class="btn btn-outline-primary btn-sm mt-3">
                         Lihat Produk
                     </a>
                 </div>
@@ -25,12 +25,12 @@
         </div>
         <!-- Data Stok -->
         <div class="col-md-3 mb-3">
-            <div class="card shadow border-0 bg-success text-white">
+            <div class="card shadow border-start border-5 border-success text-black">
                 <div class="card-body">
                     <h5>Data Stok</h5>
-                    <h2>{{ $totalStok }}</h2>
-                    <a href="{{ route('stok.index') }}"
-                        class="btn btn-light btn-sm mt-3">
+                    <h1>{{ $totalStok }}</h1>
+                    <a href="{{ route('stok.admin') }}"
+                        class="btn btn-outline-success btn-sm mt-3">
                         Lihat Stok
                     </a>
                 </div>
@@ -38,13 +38,12 @@
         </div>
         <!-- Total Pesanan -->
         <div class="col-md-3 mb-3">
-            <div class="card shadow border-0 bg-warning text-dark">
+            <div class="card shadow border-start border-5 border-warning text-black">
                 <div class="card-body">
                     <h5>Total Pesanan</h5>
-                    <h2>{{ $totalPesanan }}</h2>
-
+                    <h1>{{ $totalPesanan }}</h1>
                     <a href="{{ route('pesanan.index') }}"
-                        class="btn btn-dark btn-sm mt-3">
+                        class="btn btn-outline-warning btn-sm mt-3">
                         Lihat Pesanan
                     </a>
                 </div>
@@ -52,16 +51,14 @@
         </div>
         <!-- Pendapatan -->
         <div class="col-md-3 mb-3">
-            <div class="card shadow border-0 bg-danger text-white">
+            <div class="card shadow border-start border-5 border-danger text-black">
                 <div class="card-body">
                     <h5>Total Pendapatan</h5>
-
-                    <h3>
+                    <h1>
                         Rp {{ number_format($totalPendapatan,0,',','.') }}
-                    </h3>
-
+                    </h1>
                     <a href="{{ route('transaksi.index') }}"
-                        class="btn btn-light btn-sm mt-3">
+                        class="btn btn-outline-warning btn-sm mt-3">
                         Detail
                     </a>
                 </div>
@@ -73,8 +70,8 @@
         <!-- Grafik -->
         <div class="col-md-8">
             <div class="card shadow">
-                <div class="card-header">
-                    <b>Grafik Penjualan</b>
+                <div class="card-header shadow border-start border-3 border-danger">
+                    <b><h2>Grafik Penjualan</h2></b>
                 </div>
                 <div class="card-body">
                     <canvas id="grafikPenjualan" height="120"></canvas>
@@ -85,19 +82,19 @@
         <!-- Notifikasi -->
         <div class="col-md-4">
             <div class="card shadow">
-                <div class="card-header">
-                    <b>Notifikasi</b>
+                <div class="card-header shadow border-start border-3 border-warning">
+                    <b><h2>Notifikasi</h2></b>
                 </div>
                 <div class="card-body">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            🔔 Pesanan Baru
+                            <h3>🔔 Pesanan Baru</h3>
                         </li>
                         <li class="list-group-item">
-                            ✅ Transaksi Berhasil
+                            <h3>✅ Transaksi Berhasil</h3>
                         </li>
                         <li class="list-group-item text-danger">
-                            ⚠ Stok Menipis
+                            <h3>⚠ Stok Menipis</h3>
                         </li>
                     </ul>
                 </div>
@@ -109,8 +106,8 @@
         <!-- Produk Terlaris -->
         <div class="col-md-6">
             <div class="card shadow">
-                <div class="card-header">
-                    <b>Produk Terlaris</b>
+                <div class="card-header shadow border-start border-3 border-success">
+                    <b><h3>Produk Terlaris</h3></b>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered">
@@ -137,8 +134,8 @@
         <!-- Stok Menipis -->
         <div class="col-md-6">
             <div class="card shadow">
-                <div class="card-header">
-                    <b>Stok Menipis</b>
+                <div class="card-header shadow border-start border-3 border-primary">
+                    <b><h3>Stok Menipis</h3></b>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered">

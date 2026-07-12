@@ -7,7 +7,7 @@
 
     <!-- Judul -->
     <h4 class="mb-0 fw-bold text-dark">
-        ODELWEAR ADMIN
+        GS ADMIN
     </h4>
 
     <!-- Search -->

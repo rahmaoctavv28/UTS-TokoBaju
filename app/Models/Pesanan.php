@@ -11,9 +11,12 @@ class Pesanan extends Model
     protected $fillable = [
         'admin_id',
         'pelanggan_id',
+        'nama_penerima',
         'nama_barang',
         'jumlah',
-        'total_harga'
+        'total_harga',
+        'metode_pembayaran',
+        'status'
     ];
 
     public function admin()
@@ -44,14 +47,24 @@ class Pesanan extends Model
         if ($produk->stok < $this->jumlah) {
             return false; 
         }
-
         
         $produk->decrement('stok', $this->jumlah);
-        
         return true;
     }
     public function transaksi()
     {
-    return $this->hasOne(Transaksi::class);
+        return $this->hasOne(Transaksi::class);
     }
+    
+
+    public function details()
+    {
+        return $this->hasMany(PesananDetail::class);
+    }
+
+    public function detailPesanan()
+    {
+        return $this->hasMany(PesananDetail::class,'pesanan_id');
+    }
+
 }

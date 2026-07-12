@@ -1,8 +1,10 @@
 <div class="sidebar" id="sidebar">
     <!-- Logo -->
     <div class="logo">
-        <i class="bi bi-bag-heart-fill"></i>
-        <span class="logo-text">ODELWEAR</span>
+        <img src="{{ asset('images/logo.jpeg') }}"
+            alt="Logo"
+            class="logo-img">
+        <span class="logo-text">Geulis Sandhangan</span>
     </div>
     <!-- Menu -->
     <ul class="menu">
@@ -28,26 +30,19 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('supplier.index') }}"
-                class="{{ request()->is('supplier*') ? 'active' : '' }}">
-                <i class="bi bi-truck"></i>
-                <span>Supplier</span>
-            </a>
-        </li>
-        <li>
-            <a href="{{ route('stok.index') }}"
-                class="{{ request()->is('stok*') ? 'active' : '' }}">
+            <a href="{{ route('stok.admin') }}"
+            class="{{ request()->is('admin/stok') ? 'active' : '' }}">
                 <i class="bi bi-boxes"></i>
                 <span>Stok</span>
             </a>
         </li>
-        <li>
+        <!-- <li>
             <a href="{{ route('pelanggan.index') }}"
                 class="{{ request()->is('pelanggan*') ? 'active' : '' }}">
                 <i class="bi bi-people-fill"></i>
                 <span>Pelanggan</span>
             </a>
-        </li>
+        </li> -->
         <li>
             <a href="{{ route('pesanan.index') }}"
                 class="{{ request()->is('pesanan*') ? 'active' : '' }}">
@@ -70,10 +65,10 @@
         </li>
     </ul>
     <!-- Footer Sidebar -->
-    <div class="sidebar-footer">
+    <!-- <div class="sidebar-footer">
         <a href="/" class="logout">
             <i class="bi bi-box-arrow-left"></i>
             <span>Keluar</span>
         </a>
-    </div>
+    </div> -->
 </div>

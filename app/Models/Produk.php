@@ -65,4 +65,19 @@ class Produk extends Model
         return true;
     }
     
+    public function stok(){
+        return $this->hasOne(Stok::class, 'produk_id');
+        }
+
+    public function stokTerakhir(){
+        return $this->hasOne(StokHistory::class, 'produk_id')->latestOfMany();
+    }
+
+    public function wishlists(){
+        return $this->hasMany(Wishlist::class);
+    }
+
+    public function detailPesanan(){
+        return $this->hasMany(PesananDetail::class, 'produk_id');
+    }
 }

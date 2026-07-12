@@ -67,15 +67,15 @@ class ProdukController extends Controller
 
     // Jika upload foto baru
     if ($request->hasFile('upload_foto')) {
-        $foto = $request->file('upload_foto')->store('produk', 'public');
-        $produk->upload_foto = $foto;
+        $path = $request->file('upload_foto')->store('produk', 'public');
+        $produk->upload_foto = $path;
     }
 
     // Update data
     $produk->nama_baju   = $request->nama_baju;
     $produk->harga       = $request->harga;
     $produk->ukuran      = $request->ukuran;
-    $produk->stok        = $request->stok;
+    // $produk->stok        = $request->stok;
     $produk->kategori_id = $request->kategori_id;
 
     $produk->save();
