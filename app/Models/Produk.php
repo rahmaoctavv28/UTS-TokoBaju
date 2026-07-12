@@ -80,4 +80,9 @@ class Produk extends Model
     public function detailPesanan(){
         return $this->hasMany(PesananDetail::class, 'produk_id');
     }
+
+    public function detailTransaksi()
+    {
+        return $this->hasMany(DetailTransaksi::class);
+    }
 }

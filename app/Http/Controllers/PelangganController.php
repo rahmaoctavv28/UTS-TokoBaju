@@ -253,6 +253,7 @@ class PelangganController extends Controller
             Transaksi::create([
                 'pesanan_id' => $pesanan->id,
                 'kode_transaksi' => 'TRX' . date('YmdHis'),
+                'jenis_transaksi' => 'Online',
                 'metode_pembayaran' => $request->metode_pembayaran,
                 'total_bayar' => $pesanan->total_harga,
                 'uang_dibayar' => $pesanan->total_harga,

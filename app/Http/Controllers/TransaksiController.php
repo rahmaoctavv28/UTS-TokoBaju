@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 use App\Models\Produk;
 use App\Models\Transaksi;
 use App\Models\Pesanan;
 use App\Models\Pelanggan;
+
 
 class TransaksiController extends Controller
 {
@@ -15,40 +18,80 @@ class TransaksiController extends Controller
     return view('kasir');
 }
 
-    public function create()
+   public function create()
     {
-        $pesanan = Pesanan::all();
-        $pelanggan = Pelanggan::all();
+        $nama_kasir = "Kasir";
+
         $kode_transaksi = 'TRX' . date('YmdHis');
-        return view('kasir.create', compact('pesanan', 'pelanggan', 'kode_transaksi'));
+
+        $produks = Produk::with('stokTerakhir')->get();
+
+        return view('kasir.create', compact(
+            'nama_kasir',
+            'kode_transaksi',
+            'produks'
+        ));
     }
 
     public function store(Request $request)
     {
-        $total_bayar = $request->total_bayar;
-        $uang_dibayar = $request->uang_dibayar; 
-        $kembalian = $uang_dibayar - $total_bayar;
-        Transaksi::create([
-            'pesanan_id' => $request->pesanan_id,
-            'nama_kasir' => auth()->user()->name,
-            'kode_transaksi' => $request->kode_transaksi,
-            'produk_id' => $request->produk_id,
-            'nama_produk' => $request->nama_produk,
-            'jumlah_produk' => $request->jumlah_produk,
-            'harga_satuan' => $request->harga_satuan,
-            'subtotal' => $request->jumlah_produk * $request->harga_satuan,
-            'metode_pembayaran' => $request->metode_pembayaran,
-            'total_bayar' => $total_bayar,
-            'uang_dibayar' => $uang_dibayar,
-            'kembalian' => $request->uang_dibayar
-                ? $request->uang_dibayar - ($request->jumlah_produk * $request->harga_satuan)
-                : null,
-            'status' => $request->status,
-            'tanggal_transaksi' => $request->tanggal_transaksi,
+        $request->validate([
+            'produk_id' => 'required|array|min:1',
+            'qty' => 'required|array|min:1',
+            'metode_pembayaran' => 'required'
         ]);
 
-        return redirect()->route('transaksi.index')
-                        ->with('success', 'Transaksi berhasil ditambahkan.');
+        DB::beginTransaction();
+        try{
+            $total = 0;
+            foreach($request->produk_id as $i => $produkId){
+                $produk = Produk::findOrFail($produkId);
+                $total += $produk->harga * $request->qty[$i];
+            }
+            $transaksi = Transaksi::create([
+                'nama_kasir' => $request->nama_kasir,
+                'kode_transaksi' => $request->kode_transaksi,
+                'jenis_transaksi' => 'Kasir',
+                'metode_pembayaran' => $request->metode_pembayaran,
+                'total_bayar' => $total,
+                'uang_dibayar' => $request->uang_dibayar ?? $total,
+                'kembalian' => $request->uang_dibayar
+                    ? $request->uang_dibayar - $total
+                    : 0,
+                'status' => 'Selesai',
+                'tanggal_transaksi' => now()
+            ]);
+            foreach($request->produk_id as $i => $produkId){
+                $produk = Produk::findOrFail($produkId);
+
+                DetailTransaksi::create([
+                    'transaksi_id'=>$transaksi->id,
+                    'produk_id'=>$produk->id,
+                    'qty'=>$request->qty[$i],
+                    'harga'=>$produk->harga,
+                    'subtotal'=>$produk->harga * $request->qty[$i]
+                ]);
+                // Kurangi stok
+                if ($produk->stokTerakhir) {
+                    $produk->stokTerakhir->decrement(
+                        'stok_akhir',
+                        $request->qty[$i]
+                    );
+                }
+            }
+            DB::commit();
+            return redirect()
+                ->route('transaksi.index')
+                ->with('success','✅Transaksi berhasil disimpan.');
+
+        }catch(\Exception $e){
+
+            DB::rollBack();
+            return back()->with(
+                'error',
+                $e->getMessage()
+            );
+        }
     }
 
     public function edit($id)
@@ -87,4 +130,6 @@ class TransaksiController extends Controller
 
         return redirect('/transaksi');
     }
+
+
 }

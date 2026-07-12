@@ -16,6 +16,7 @@ use App\Http\Controllers\DetailPesananController;
 use App\Http\Controllers\GudangController;
 use App\Http\Controllers\LaporanStokController;
 use App\Http\Controllers\KasirController;
+use App\Http\Controllers\LaporanTransaksiController;
 
 /* MODELS */
 use App\Models\Produk;
@@ -126,6 +127,12 @@ Route::resource('supplier', SupplierController::class);
 
 Route::resource('transaksi', TransaksiController::class);
 
+Route::get('/laporan-transaksi', [LaporanTransaksiController::class, 'index'])
+    ->name('laporan.transaksi');
+
+Route::post('/transaksi', [TransaksiController::class,'store'])
+    ->name('transaksi.store');
+
 Route::resource('stok', StokController::class);
 
 // Route::resource('stokadmin', StokController::class);
@@ -153,6 +160,7 @@ Route::get('/laporanstok', [LaporanStokController::class, 'index']);
 */
 
 Route::get('/kasir', [TransaksiController::class, 'create'])->name('kasir');
+
 /*
 | HOME
 */
@@ -172,6 +180,5 @@ Route::get('/', function () {
         'pelanggan',
         'pesanan'
         ));
-
 
 });

@@ -51,8 +51,8 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('transaksi.index') }}"
-                class="{{ request()->is('transaksi*') ? 'active' : '' }}">
+            <a href="{{ route('laporan.transaksi') }}"
+                class="{{ request()->is('laporan-transaksi*') ? 'active' : '' }}">
                 <i class="bi bi-cash-stack"></i>
                 <span>Transaksi</span>
             </a>
