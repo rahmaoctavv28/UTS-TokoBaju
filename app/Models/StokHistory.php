@@ -3,20 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Produk;
 
 class StokHistory extends Model
 {
     protected $table = 'stok_histories';
 
-    protected $guarded = [];
-
     protected $fillable = [
         'produk_id',
+        'supplier_id',
         'stok_awal',
         'stok_masuk',
         'stok_keluar',
+        'barang_rusak',
         'stok_akhir',
+        'tanggal_masuk',
         'keterangan',
         'user_id'
     ];
@@ -24,5 +24,10 @@ class StokHistory extends Model
     public function produk()
     {
         return $this->belongsTo(Produk::class, 'produk_id');
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class, 'supplier_id');
     }
 }

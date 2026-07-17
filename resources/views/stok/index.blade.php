@@ -134,9 +134,11 @@
         <tr>
             <th>ID Produk</th>
             <th>Nama Produk</th>
+            <th>Supplier</th>
             <th>Stok Awal</th>
             <th>Stok Masuk</th>
             <th>Stok Keluar</th>
+            <th>Barang Rusak</th>
             <th>Stok Akhir</th>
             <th>Tanggal Masuk</th>
             <th>Keterangan</th>
@@ -149,23 +151,14 @@
         <tr>
 
             <td>{{ $s->produk_id }}</td>
-
-            <td>
-                {{ $s->produk->nama_baju ?? '-' }}
-            </td>
-
+            <td>{{ $s->produk->nama_baju ?? '-' }}</td>
+            <td>{{ $s->supplier->nama_supplier ?? '-' }}</td>
             <td>{{ $s->stok_awal }}</td>
-
             <td>{{ $s->stok_masuk }}</td>
-
             <td>{{ $s->stok_keluar }}</td>
-
+            <td>{{ $s->barang_rusak }}</td>
             <td>{{ $s->stok_akhir }}</td>
-
-            <td>
-                {{ $s->created_at->format('d-m-Y') }}
-            </td>
-
+            <td>{{ $s->tanggal_masuk }}</td>
             <td>{{ $s->keterangan }}</td>
 
             <td>

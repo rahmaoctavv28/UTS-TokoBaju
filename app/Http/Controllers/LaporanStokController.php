@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Produk;
+use App\Models\StokHistory;
 
 class LaporanStokController extends Controller
 {
     public function index()
     {
-        $produk = Produk::all();
+        $stok = StokHistory::with(['produk','supplier'])
+                    ->latest()
+                    ->get();
 
-        return view('laporanstok.index', compact('produk'));
+        return view('laporanstok.index', compact('stok'));
     }
 }

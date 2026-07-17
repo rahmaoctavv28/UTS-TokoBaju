@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tambah Stok Barang</title>
+    <title>Tambah Barang Masuk</title>
 
     <style>
-
         *{
             margin:0;
             padding:0;
@@ -42,7 +41,8 @@
             color:#444;
         }
 
-        input,select{
+        input,
+        select{
             width:100%;
             padding:15px;
             border:1px solid #ddd;
@@ -74,49 +74,74 @@
             color:white;
             font-weight:bold;
         }
-
     </style>
+
 </head>
 <body>
 
 <div class="card">
 
-    <h1>📦 Tambah Stok Barang</h1>
+    <h1>📦 Tambah Barang Masuk</h1>
 
-    <form action="/stok" method="POST">
+    <form action="{{ url('/stok') }}" method="POST">
 
         @csrf
 
         <label>Nama Produk</label>
 
         <select name="produk_id" required>
-
             <option value="">-- Pilih Produk --</option>
 
             @foreach($produk as $p)
-
                 <option value="{{ $p->id }}">
                     {{ $p->nama_baju }}
                 </option>
-
             @endforeach
 
         </select>
 
-        <label>Stok Awal</label>
-        <input type="number" name="stok_awal" required>
+        <label>Supplier</label>
+
+        <select name="supplier_id" required>
+            <option value="">-- Pilih Supplier --</option>
+
+            @foreach($supplier as $s)
+                <option value="{{ $s->id }}">
+                    {{ $s->nama_supplier }}
+                </option>
+            @endforeach
+
+        </select>
 
         <label>Stok Masuk</label>
-        <input type="number" name="stok_masuk" required>
 
-        <label>Stok Keluar</label>
-        <input type="number" name="stok_keluar" value="0">
+        <input
+            type="number"
+            name="stok_masuk"
+            min="1"
+            required>
 
-        <label>Stok Akhir</label>
-        <input type="number" name="stok_akhir" required>
+        <label>Barang Rusak</label>
+
+        <input
+            type="number"
+            name="barang_rusak"
+            value="0"
+            min="0">
+        
+        <label>Tanggal Masuk</label>
+
+        <input
+            type="date"
+            name="tanggal_masuk"
+            required>
 
         <label>Keterangan</label>
-        <input type="text" name="keterangan">
+
+        <input
+            type="text"
+            name="keterangan"
+            placeholder="Masukkan keterangan">
 
         <button type="submit">
             Simpan Data
@@ -124,7 +149,7 @@
 
     </form>
 
-    <a href="/stok" class="back">
+    <a href="{{ url('/stok') }}" class="back">
         ⬅ Kembali
     </a>
 
