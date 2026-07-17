@@ -143,11 +143,29 @@ Route::get('/stokadmin', [StokController::class, 'admin'])
 Route::resource('detailpesanan', DetailPesananController::class);
 
 
-/*
-| DASHBOARD ADMIN GUDANG
-*/
 
-Route::get('/gudang', [GudangController::class, 'index']);
+/*
+| DASHBOARD ADMIN GUDANG 
+*/
+Route::prefix('gudang')
+     ->name('gudang.')
+     ->group(function () {
+
+    Route::get('/', [GudangController::class, 'index'])
+         ->name('index');
+
+    // Barang Masuk
+    Route::get('/barang-masuk/create', [GudangController::class, 'createBarangMasuk'])
+         ->name('barang-masuk.create');
+
+    Route::post('/barang-masuk', [GudangController::class, 'storeBarangMasuk'])
+         ->name('barang-masuk.store');
+
+    // Data Stok
+    Route::get('/stok', [GudangController::class, 'stokIndex'])
+         ->name('stok.index');
+
+});
 
 /*
 | LAPORAN STOK
