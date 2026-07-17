@@ -78,6 +78,8 @@ body{
 .btn-tambah{
     font-size:13px;
 }
+
+
 </style>
 
 </head>
@@ -185,234 +187,192 @@ DAFTAR PRODUK
     <div class="col-lg-4">
         <div class="card shadow">
             <div class="card-header bg-success text-white">
-                <h5 class="mb-0"><i class="bi bi-bag-fill"></i>Daftar Produk</h5>
-            </div>
-            <div class="card-body">
-            <div class="mb-3">
-                <inputtype="text" id="searchProduk" class="form-control" placeholder="Cari Produk...">
-            </div>
-            <div class="product-panel">
-                <div class="row">
+                <h5 class="mb-0">
+                <i class="bi bi-bag-fill"></i> Daftar Produk
+            </h5>
+    </div>
+    <div class="card-body">
+        <!-- Pencarian -->
+        <div class="mb-3">
+            <input type="text" id="searchProduk" class="form-control" placeholder="🔍 Cari Produk...">
+        </div>
+        <!-- Daftar Produk -->
+        <div class="product-panel">
+            <div class="row">
                 @foreach($produks as $produk)
-                <div class="col-md-6 col-6 mb-3 produk-item">
+                <div class="col-md-6 col-6 mb-3 product-item"
+                     data-nama="{{ strtolower($produk->nama_baju) }}">
                     <div class="card product-card">
-                    @if($produk->gambar)
-                    <img src="{{ asset('storage/'.$produk->gambar) }}" class="product-img">
-                    @else
-                    <img src="https://via.placeholder.com/300x300"class="product-img">
-                    @endif
-                    <div class="card-body text-center">
-                    <h6>{{ $produk->nama_baju }}</h6>
-                    <div class="text-success fw-bold">
-                        Rp {{ number_format($produk->harga,0,',','.') }}
-                    </div>
-                    <small class="text-muted">
-                        Stok :
-                        {{ optional($produk->stokTerakhir)->stok_akhir ?? 0 }}
-                    </small>
-                    <button type="button" class="btn btn-success btn-sm w-100 mt-2 btn-tambah tambahProduk"
-                        data-id="{{ $produk->id }}"
-                        data-nama="{{ $produk->nama_baju }}"
-                        data-harga="{{ $produk->harga }}">
-                        <i class="bi bi-plus-circle"></i>
-                        Tambahkan
-                    </button>
+                        <!-- Gambar -->
+                        @if($produk->upload_foto)
+                            <img src="{{ asset('storage/'.$produk->upload_foto) }}"
+                                 class="product-img">
+                        @else
+                            <img src="https://via.placeholder.com/300x300"
+                                 class="product-img">
+                        @endif
+                        <div class="card-body text-center">
+                            <h6>{{ $produk->nama_baju }}</h6>
+                            <div class="text-success fw-bold">
+                                Rp {{ number_format($produk->harga,0,',','.') }}
+                            </div>
+                        </div>
+                         <small class="text-center">
+                            Stok :
+                            {{ optional($produk->stokTerakhir)->stok_akhir ?? 0 }}
+                        </small>
+                        <button type="button" class="btn btn-success btn-sm w-100 mt-2 btn-tambah tambahProduk" data-id="{{ $produk->id }}" data-nama="{{ $produk->nama_baju }}" data-harga="{{ $produk->harga }}">
+                            <i class="bi bi-plus-circle"></i>
+                            Tambahkan
+                        </button>
                     </div>
                 </div>
+                @endforeach
             </div>
-            @endforeach
         </div>
-    </div>    
-</div>
-</div>
-</div>
+    </div>
 </div>
 <script>
 
 let cart = [];
 
-document.querySelectorAll('.tambahProduk').forEach(function(button){
-
-    button.addEventListener('click',function(){
-
-        let id=this.dataset.id;
-        let nama=this.dataset.nama;
-        let harga=parseInt(this.dataset.harga);
-
-        let produk=cart.find(item=>item.id==id);
-
-        if(produk){
-
+// ==========================
+// TAMBAH PRODUK
+// ==========================
+document.querySelectorAll('.tambahProduk').forEach(button => {
+    button.addEventListener('click', function () {
+        let id = this.dataset.id;
+        let nama = this.dataset.nama;
+        let harga = parseInt(this.dataset.harga);
+        let produk = cart.find(item => item.id == id);
+        if (produk) {
             produk.qty++;
-
-        }else{
-
+        } else {
             cart.push({
-
-                id:id,
-                nama:nama,
-                harga:harga,
-                qty:1
-
+                id: id,
+                nama: nama,
+                harga: harga,
+                qty: 1
             });
-
         }
-
         renderCart();
-
     });
-
 });
 
-function renderCart(){
 
-    let tbody=document.querySelector('#cartTable tbody');
-
-    tbody.innerHTML='';
-
-    let total=0;
-
-    cart.forEach(function(item,index){
-
-        let subtotal=item.qty*item.harga;
-
-        total+=subtotal;
-
-        tbody.innerHTML+=`
-
-<tr>
-
-<td>
-
-${item.nama}
-
-<input type="hidden" name="produk_id[]" value="${item.id}">
-
-</td>
-
-<td>
-
-Rp ${item.harga.toLocaleString()}
-
-<input type="hidden" name="harga[]" value="${item.harga}">
-
-</td>
-
-<td>
-
-<input type="number" class="form-control qty" name="qty[]" value="${item.qty}" min="1" data-index="${index}">
-
-</td>
-
-<td>
-
-Rp ${subtotal.toLocaleString()}
-
-</td>
-
-<td>
-
-<button type="button" class="btn btn-danger btn-sm hapus" data-index="${index}">
-
-<i class="bi bi-trash"></i>
-
-</button>
-
-</td>
-
-</tr>
-
-`;
-
+// ==========================
+// RENDER CART
+// ==========================
+function renderCart() {
+    let tbody = document.querySelector('#cartTable tbody');
+    tbody.innerHTML = "";
+    let total = 0;
+    cart.forEach((item,index)=>{
+        let subtotal = item.qty * item.harga;
+        total += subtotal;
+        tbody.innerHTML += `
+        <tr>
+            <td>
+                ${item.nama}
+                <input type="hidden" name="produk_id[]" value="${item.id}">
+            </td>
+            <td>
+                Rp ${item.harga.toLocaleString('id-ID')}
+            </td>
+            <td width="120">
+                <input type="number" class="form-control qty" min="1" value="${item.qty}" data-index="${index}" name="qty[]">
+            </td>
+            <td>
+                Rp ${subtotal.toLocaleString('id-ID')}
+            </td>
+            <td width="60">
+                <button type="button" class="btn btn-danger btn-sm hapus" data-index="${index}">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </td>
+        </tr>
+        `;
     });
-
-    document.getElementById('total').value=total;
-
-    hapusProduk();
-
-    ubahQty();
-
+    document.getElementById("total").value = total;
+    aktifkanQty();
+    aktifkanHapus();
 }
-
-function hapusProduk(){
-
-    document.querySelectorAll('.hapus').forEach(function(btn){
-
-        btn.onclick=function(){
-
+// ==========================
+// HAPUS PRODUK
+// ==========================
+function aktifkanHapus(){
+    document.querySelectorAll(".hapus").forEach(button=>{
+        button.onclick=function(){
             cart.splice(this.dataset.index,1);
-
             renderCart();
-
         }
-
     });
-
 }
 
-function ubahQty(){
-
-    document.querySelectorAll('.qty').forEach(function(input){
-
+// ==========================
+// UBAH JUMLAH
+// =========================
+function aktifkanQty(){
+    document.querySelectorAll(".qty").forEach(input=>{
         input.onchange=function(){
-
-            cart[this.dataset.index].qty=parseInt(this.value);
-
+            let index=this.dataset.index
+            cart[index].qty=parseInt(this.value);
+            if(cart[index].qty<1){
+                cart[index].qty=1;
+            }
             renderCart();
-
         }
-
     });
-
+}
+// ==========================
+// SEARCH PRODUK
+// ==========================
+const search = document.getElementById("searchProduk");
+if(search){
+    search.addEventListener("keyup",function(){
+        let keyword=this.value.toLowerCase();
+        document.querySelectorAll(".product-item").forEach(item=>{
+            let nama=item.dataset.nama.toLowerCase();
+            if(nama.includes(keyword)){
+                item.style.display="";
+            }else{
+                item.style.display="none";
+            }
+        });
+    });
+}
+// ==========================
+// METODE PEMBAYARAN
+// ==========================
+const metode=document.getElementById("metode");
+if(metode){
+    metode.addEventListener("change",function(){
+        document.getElementById("cashArea").style.display="none";
+        document.getElementById("transferArea").style.display="none";
+        document.getElementById("qrisArea").style.display="none";
+        if(this.value=="Cash"){
+            document.getElementById("cashArea").style.display="block";
+        }
+        if(this.value=="Transfer"){
+            document.getElementById("transferArea").style.display="block";
+        }
+        if(this.value=="QRIS"){
+            document.getElementById("qrisArea").style.display="block";
+        }
+    });
 }
 
-document.getElementById('searchProduk').addEventListener('keyup',function(){
-
-    let keyword=this.value.toLowerCase();
-
-    document.querySelectorAll('.produk-item').forEach(function(item){
-
-        let nama=item.innerText.toLowerCase();
-
-        item.style.display=nama.includes(keyword)?'block':'none';
-
+// ==========================
+// HITUNG KEMBALIAN
+// ==========================
+const bayar=document.getElementById("bayar");
+if(bayar){
+    bayar.addEventListener("keyup",function(){
+        let total=parseInt(document.getElementById("total").value)||0;
+        let uang=parseInt(this.value)||0;
+        document.getElementById("kembalian").value=uang-total;
     });
-
-});
-
-document.getElementById('metode').addEventListener('change',function(){
-
-    document.getElementById('cashArea').style.display='none';
-    document.getElementById('transferArea').style.display='none';
-    document.getElementById('qrisArea').style.display='none';
-
-    if(this.value=="Cash"){
-
-        document.getElementById('cashArea').style.display='block';
-
-    }
-
-    if(this.value=="Transfer"){
-
-        document.getElementById('transferArea').style.display='block';
-
-    }
-
-    if(this.value=="QRIS"){
-
-        document.getElementById('qrisArea').style.display='block';
-
-    }
-
-});
-
-document.getElementById('bayar').addEventListener('keyup',function(){
-
-    document.getElementById('kembalian').value=
-
-    this.value-document.getElementById('total').value;
-
-});
+}
 
 </script>
 

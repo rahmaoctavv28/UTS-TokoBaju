@@ -9,7 +9,7 @@ use App\Models\Produk;
 use App\Models\Transaksi;
 use App\Models\Pesanan;
 use App\Models\Pelanggan;
-
+use App\Models\DetailTransaksiKasir;
 
 class TransaksiController extends Controller
 {
@@ -21,11 +21,8 @@ class TransaksiController extends Controller
    public function create()
     {
         $nama_kasir = "Kasir";
-
         $kode_transaksi = 'TRX' . date('YmdHis');
-
         $produks = Produk::with('stokTerakhir')->get();
-
         return view('kasir.create', compact(
             'nama_kasir',
             'kode_transaksi',
@@ -58,20 +55,21 @@ class TransaksiController extends Controller
                 'kembalian' => $request->uang_dibayar
                     ? $request->uang_dibayar - $total
                     : 0,
-                'status' => 'Selesai',
-                'tanggal_transaksi' => now()
+                'status' => 'Lunas'
             ]);
             foreach($request->produk_id as $i => $produkId){
                 $produk = Produk::findOrFail($produkId);
 
-                DetailTransaksi::create([
-                    'transaksi_id'=>$transaksi->id,
-                    'produk_id'=>$produk->id,
-                    'qty'=>$request->qty[$i],
-                    'harga'=>$produk->harga,
-                    'subtotal'=>$produk->harga * $request->qty[$i]
+                DetailTransaksiKasir::create([
+                    'transaksi_id' => $transaksi->id,
+                    'produk_id' => $produk->id,
+                    'qty' => $request->qty[$i],
+                    'harga' => $produk->harga,
+                    'subtotal' => $produk->harga * $request->qty[$i]
                 ]);
                 // Kurangi stok
+                $produk->decrement('stok', $request->qty[$i]);
+                
                 if ($produk->stokTerakhir) {
                     $produk->stokTerakhir->decrement(
                         'stok_akhir',
@@ -87,7 +85,7 @@ class TransaksiController extends Controller
         }catch(\Exception $e){
 
             DB::rollBack();
-            return back()->with(
+             return back()->with(
                 'error',
                 $e->getMessage()
             );
@@ -130,6 +128,5 @@ class TransaksiController extends Controller
 
         return redirect('/transaksi');
     }
-
 
 }

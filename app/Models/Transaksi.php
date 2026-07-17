@@ -3,15 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\DetailTransaksiKasir;
 
 class Transaksi extends Model
 {
     protected $table = 'transaksis';
     protected $fillable = [
-
-        'pesanan_id',
+        'nama_kasir',
         'kode_transaksi',
-        'jenis_transaksi',
         'metode_pembayaran',
         'total_bayar',
         'uang_dibayar',
@@ -27,5 +26,10 @@ class Transaksi extends Model
     public function details()
     {
         return $this->hasMany(DetailTransaksi::class);
+    }
+
+    public function detailKasir()
+    {
+        return $this->hasMany(DetailTransaksiKasir::class);
     }
 }

@@ -37,49 +37,59 @@
         </div>
         <!-- Notifikasi -->
         <div class="dropdown me-4">
-            <button
-                class="btn btn-light position-relative"
-                data-bs-toggle="dropdown">
+            <button class="btn btn-light position-relative" data-bs-toggle="dropdown">
                 <i class="bi bi-bell-fill fs-5"></i>
-                <span
-                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    3
+                @if($jumlahNotifikasi > 0)
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {{ $jumlahNotifikasi }}
                 </span>
+                @endif
             </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow">
-                <li>
-                    <h6 class="dropdown-header">
-                        Notifikasi
+            <div class="dropdown-menu dropdown-menu-end shadow p-0" style="width:370px;border-radius:15px;overflow:hidden;">
+                <div class="bg-primary text-white p-3">
+                    <h6 class="mb-0">
+                        🔔 Notifikasi
                     </h6>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="#">
-
-                        📦 Produk stok menipis
+                    <small>
+                        {{ $jumlahNotifikasi }} Notifikasi
+                    </small>
+                </div>
+                <div style="max-height:350px;overflow-y:auto;">
+                    @forelse($notifikasi as $item)
+                    <a href="{{ $item['link'] }}" class="dropdown-item py-3 border-bottom">
+                        <div class="d-flex">
+                            <div class="me-3">
+                                <i class="bi {{ $item['icon'] }} fs-4"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold">
+                                    {{ $item['judul'] }}
+                                </div>
+                                <small class="text-muted">
+                                    {{ $item['pesan'] }}
+                                </small>
+                            </div>
+                        </div>
                     </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="#">
-                        🛒 Pesanan baru
+                    @empty
+                    <div class="text-center p-4 text-muted">
+                        <i class="bi bi-bell-slash fs-1"></i>
+                        <br>
+                        Tidak ada notifikasi
+                    </div>
+                    @endforelse
+                </div>
+                <div class="text-center border-top">
+                    <a href="{{ route('laporan.dashboard') }}" class="dropdown-item fw-bold text-primary">
+                        Lihat Semua
                     </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="#">
-                        💰 Transaksi berhasil
-                    </a>
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
         <!-- Profil -->
         <div class="dropdown">
-            <button
-                class="btn btn-light d-flex align-items-center"
-                data-bs-toggle="dropdown">
-                <img
-                    src="https://ui-avatars.com/api/?name=Admin&background=7c3aed&color=fff"
-                    class="rounded-circle me-2"
-                    width="40"
-                    height="40">
+            <button class="btn btn-light d-flex align-items-center" data-bs-toggle="dropdown">
+                <img src="https://ui-avatars.com/api/?name=Admin&background=7c3aed&color=fff" class="rounded-circle me-2" width="40" height="40">
                 <div class="text-start">
                     <strong>Admin</strong>
                     <br>
@@ -91,17 +101,17 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-end shadow">
                 <li>
-                    <a class="dropdown-item" href="#">
-                        <i class="bi bi-person"></i>
-                        Profil
+                    <a class="dropdown-item" href="{{ route('profil.index') }}">
+                        <i class="bi bi-person-circle"></i>
+                        Profil Saya
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <a class="dropdown-item" href="#">
                         <i class="bi bi-gear"></i>
                         Pengaturan
                     </a>
-                </li>
+                </li> -->
                 <li><hr class="dropdown-divider"></li>
                 <li>
                     <a class="dropdown-item text-danger" href="/">

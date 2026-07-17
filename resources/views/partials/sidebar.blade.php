@@ -9,29 +9,25 @@
     <!-- Menu -->
     <ul class="menu">
         <li>
-            <a href="/DashboardAdmin"
-                class="{{ request()->is('DashboardAdmin') ? 'active' : '' }}">
+            <a href="/DashboardAdmin" class="{{ request()->is('DashboardAdmin') ? 'active' : '' }}">
                 <i class="bi bi-speedometer2"></i>
                 <span>Dashboard</span>
             </a>
         </li>
         <li>
-            <a href="{{ route('produk.index') }}"
-                class="{{ request()->is('produk*') ? 'active' : '' }}">
+            <a href="{{ route('produk.index') }}" class="{{ request()->is('produk*') ? 'active' : '' }}">
                 <i class="bi bi-box-seam"></i>
                 <span>Produk</span>
             </a>
         </li>
         <li>
-            <a href="{{ route('kategori.index') }}"
-                class="{{ request()->is('kategori*') ? 'active' : '' }}">
+            <a href="{{ route('kategori.index') }}" class="{{ request()->is('kategori*') ? 'active' : '' }}">
                 <i class="bi bi-tags-fill"></i>
                 <span>Kategori</span>
             </a>
         </li>
         <li>
-            <a href="{{ route('stok.admin') }}"
-            class="{{ request()->is('admin/stok') ? 'active' : '' }}">
+            <a href="{{ route('stok.admin') }}" class="{{ request()->is('admin/stok') ? 'active' : '' }}">
                 <i class="bi bi-boxes"></i>
                 <span>Stok</span>
             </a>
@@ -44,21 +40,19 @@
             </a>
         </li> -->
         <li>
-            <a href="{{ route('pesanan.index') }}"
-                class="{{ request()->is('pesanan*') ? 'active' : '' }}">
+            <a href="{{ route('pesanan.index') }}" class="{{ request()->is('pesanan*') ? 'active' : '' }}">
                 <i class="bi bi-cart-fill"></i>
                 <span>Pesanan</span>
             </a>
         </li>
         <li>
-            <a href="{{ route('laporan.transaksi') }}"
-                class="{{ request()->is('laporan-transaksi*') ? 'active' : '' }}">
+            <a href="{{ route('transaksi.laporan') }}" class="{{ request()->is('laporan-transaksi*') ? 'active' : '' }}">
                 <i class="bi bi-cash-stack"></i>
                 <span>Transaksi</span>
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="{{ route('laporan.dashboard') }}" class="nav-link {{ request()->routeIs('laporan.*') ? 'active' : '' }}">
                 <i class="bi bi-file-earmark-bar-graph-fill"></i>
                 <span>Laporan</span>
             </a>

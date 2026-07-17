@@ -19,6 +19,33 @@
             <span class="badge bg-warning text-dark">Menunggu Pembayaran</span>
             @endif
         </div>
+        <div>
+            @if($pesanan->status == 'Menunggu Konfirmasi')
+                <span class="badge bg-secondary">
+                    Menunggu Konfirmasi
+                </span>
+            @elseif($pesanan->status == 'Diproses')
+                <span class="badge bg-warning text-dark">
+                    Diproses
+                </span>
+            @elseif($pesanan->status == 'Dikirim')
+                <span class="badge bg-primary">
+                    Dikirim
+                </span>
+            @elseif($pesanan->status == 'Selesai')
+                <span class="badge bg-success">
+                    Selesai
+                </span>
+            @elseif($pesanan->status == 'Dibatalkan')
+                <span class="badge bg-danger">
+                    Dibatalkan
+                </span>
+            @else
+                <span class="badge bg-secondary">
+                    {{ $pesanan->status }}
+                </span>
+            @endif
+            </div>
     </div>
     <hr>
     <h4>Rp {{ number_format($pesanan->total_harga,0,',','.') }}</h4>

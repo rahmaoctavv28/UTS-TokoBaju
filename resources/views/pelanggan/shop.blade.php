@@ -118,8 +118,9 @@ body{
 
 <div class="hero">
     <div class="container">
-        <h1>THE CURATED <br> HOME & WARDROBE </h1>
-        <p>Temukan koleksi fashion terbaik dengan kualitas premium.</p>
+        <h1>WILUJENG SUMPING<br> SUGENG RAWUH <br>Di Geulis Sandhangan </h1>
+        <p>Ngagem éndah, ngagem berkah. Busana pilihan kanggo sadaya.</p>
+        <p>Geulis dina Rupa, Ayu ing Busana.</p>
         <a href="#produk" class="btn btn-shop">Belanja Sekarang</a>
     </div>
 </div>

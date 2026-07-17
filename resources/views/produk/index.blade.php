@@ -26,7 +26,7 @@
                 <th width="10%">Ukuran</th>
                 <th width="15%">Foto</th>
                 <th width="15%">Harga</th>
-                <!-- <th width="10%">Stok</th> -->
+                <th width="10%">Stok</th>
                 <th width="5%">Edit</th>
                 <th width="5%">Hapus</th>
                 <th width="5%">Detail</th>
@@ -39,18 +39,21 @@
                     <td>{{ $item->nama_baju }}</td>
                     <td>{{ optional($item->kategori)->nama_kategori ?? '-' }}</td>
                     <td>{{ strtoupper($item->ukuran) }}</td>
-                    <td>
+                   <td class="text-center">
                         @if($item->upload_foto)
-                            <img src="{{ asset('storage/' . $item->upload_foto) }}" alt="Foto Produk" class="img-thumbnail" style="width:90px; height:90px; object-fit:cover;">
+                            <img src="{{ asset('storage/'.$item->upload_foto) }}"
+                                alt="Foto Produk"
+                                class="img-thumbnail"
+                                style="width:90px; height:90px; object-fit:cover;">
                         @else
                             Tidak ada foto
                         @endif
                     </td>
                     <td>
                         Rp {{ number_format($item->harga, 0, ',', '.') }}
-                    <!-- </td>
+                    </td>
                     <td>{{ $item->stok }}</td>
-                    <td> -->
+                    <td>
                         <a href="{{ route('produk.edit', $item->id) }}"
                            class="btn btn-sm">
                             ✏️

@@ -107,11 +107,6 @@ class PelangganController extends Controller
         return view('pelanggan.pesanan', compact( 'pesanans', 'kategoris' ));
     }
 
-    public function profile(){
-        $kategoris = Kategori::all();
-        return view('pelanggan.profile');
-    }
-
     public function kategori($id){
         $kategoris = Kategori::all();
         $produks = Produk::with(['kategori', 'stokTerakhir'])
@@ -374,6 +369,26 @@ class PelangganController extends Controller
         return redirect()
             ->route('pelanggan.wishlist')
             ->with('success', 'Produk berhasil dihapus dari wishlist.');
+    }
+
+    public function profile()
+    {
+        $pelanggan = Pelanggan::first();
+        return view('pelanggan.profile', compact('pelanggan'));
+    }
+
+    public function updateProfile(Request $request, $id)
+    {
+        $pelanggan = Pelanggan::findOrFail($id);
+
+        $pelanggan->update([
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'telepon' => $request->telepon,
+            'alamat' => $request->alamat,
+        ]);
+
+        return back()->with('success','Profil berhasil diperbarui.');
     }
 
     // public function removeWishlist($id){

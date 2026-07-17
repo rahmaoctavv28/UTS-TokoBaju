@@ -86,46 +86,64 @@
                     <b><h2>Notifikasi</h2></b>
                 </div>
                 <div class="card-body">
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <h3>🔔 Pesanan Baru</h3>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                🔔 <strong>Pesanan Baru</strong>
+                            </span>
+                            <span class="badge bg-primary rounded-pill">
+                                {{ $jumlahPesanan }}
+                            </span>
                         </li>
-                        <li class="list-group-item">
-                            <h3>✅ Transaksi Berhasil</h3>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                ✅ <strong>Transaksi Berhasil</strong>
+                            </span>
+                            <span class="badge bg-success rounded-pill">
+                                {{ $jumlahTransaksi }}
+                            </span>
                         </li>
-                        <li class="list-group-item text-danger">
-                            <h3>⚠ Stok Menipis</h3>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span class="text-danger">
+                                ⚠ <strong>Stok Menipis</strong>
+                            </span>
+                            <span class="badge bg-danger rounded-pill">
+                                {{ $jumlahStokMenipis }}
+                            </span>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-
     <div class="row mt-4">
         <!-- Produk Terlaris -->
         <div class="col-md-6">
             <div class="card shadow">
                 <div class="card-header shadow border-start border-3 border-success">
-                    <b><h3>Produk Terlaris</h3></b>
+                    <b><h3>P🏆 Produk Terlaris</h3></b>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered">
+                    <table class="table">
                         <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Produk</th>
-                            <th>Terjual</th>
-                        </tr>
+                            <tr>
+                                <th>Produk</th>
+                                <th>Terjual</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        @foreach($produkTerlaris as $item)
+                        @forelse($produkTerlaris as $item)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->nama_produk }}</td>
-                                <td>{{ $item->total }}</td>
+                                <td>{{ $item->nama_baju }}</td>
+                                <td>{{ $item->total_terjual }}</td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="2" class="text-center">
+                                    Belum ada transaksi
+                                </td>
+                            </tr>
+                        @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -138,25 +156,21 @@
                     <b><h3>Stok Menipis</h3></b>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>Produk</th>
-                            <th>Stok</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($stokMenipis as $stok)
-                            <tr>
-                                <td>{{ $stok->nama_produk }}</td>
-                                <td>
-                                    <span class="badge bg-danger">
-                                        {{ $stok->stok }}
-                                    </span>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
+                    @forelse($stokMenipis as $produk)
+                        <div class="d-flex justify-content-between border-bottom py-2">
+                            <span>{{ $produk->nama_baju }}</span>
+                            <span class="badge bg-danger">
+                                {{ $produk->stok }}
+                            </span>
+                        </div>
+                    @empty
+                        <div class="text-center">
+                            Semua stok aman
+                        </div>
+                    @endforelse
+                       </div>
+                        </div>
+                    </tbody>
                     </table>
                 </div>
             </div>

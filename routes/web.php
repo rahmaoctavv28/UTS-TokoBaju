@@ -17,6 +17,8 @@ use App\Http\Controllers\GudangController;
 use App\Http\Controllers\LaporanStokController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\LaporanTransaksiController;
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\ProfilController;
 
 /* MODELS */
 use App\Models\Produk;
@@ -28,6 +30,12 @@ use App\Models\Pesanan;
 
 Route::get('/DashboardAdmin', [DashboardController::class, 'index'])
 ->name('dashboardadmin');
+
+Route::get('/profil-admin',[ProfilController::class,'index'])
+    ->name('profil.index');
+
+Route::post('/profil-admin/update',[ProfilController::class,'update'])
+    ->name('profil.update');
 
 Route::resource('produk', ProdukController::class);
 
@@ -128,10 +136,30 @@ Route::resource('supplier', SupplierController::class);
 Route::resource('transaksi', TransaksiController::class);
 
 Route::get('/laporan-transaksi', [LaporanTransaksiController::class, 'index'])
-    ->name('laporan.transaksi');
+    ->name('transaksi.laporan');
 
-Route::post('/transaksi', [TransaksiController::class,'store'])
-    ->name('transaksi.store');
+Route::prefix('laporan')->name('laporan.')->group(function () {
+
+    Route::get('/dashboard', [LaporanController::class,'dashboard'])->name('dashboard');
+
+    Route::get('/statistik', [LaporanController::class,'statistik'])->name('statistik');
+
+    Route::get('/transaksi', [LaporanController::class,'transaksi'])->name('transaksi');
+
+    Route::get('/transaksi/{id}', [LaporanController::class,'show'])->name('show');
+
+    Route::get('/pesanan', [LaporanController::class,'pesanan'])->name('pesanan');
+
+    Route::get('/pendapatan', [LaporanController::class,'pendapatan'])->name('pendapatan');
+
+    Route::get('/grafik', [LaporanController::class,'grafik'])->name('grafik');
+
+    Route::get('/cetak', [LaporanController::class,'cetak'])->name('cetak');
+
+    Route::get('/preview', [LaporanController::class,'preview'])->name('preview');
+
+    Route::get('/pdf',[LaporanController::class,'pdf'])->name('pdf');
+});
 
 Route::resource('stok', StokController::class);
 
@@ -158,7 +186,7 @@ Route::get('/laporanstok', [LaporanStokController::class, 'index']);
 /*
 | DASHBOARD KASIR
 */
-
+Route::resource('transaksi', TransaksiController::class);
 Route::get('/kasir', [TransaksiController::class, 'create'])->name('kasir');
 
 /*
